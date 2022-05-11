@@ -14,4 +14,8 @@
     <color name="ET_BG">#ddd</color>
     <color name="ET_Stroke">#aaa</color>
 
+    // ESC COLORS
+    <color name="ESC_Main">#3a9358</color>
+    <color name="ESC_Alt">#296639</color>
+
 </resources>

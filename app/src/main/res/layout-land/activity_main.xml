@@ -16,8 +16,7 @@
         android:layout_width="175dp"
         android:layout_height="195dp"
         android:layout_centerInParent="true"
-        android:src="@drawable/ic_wgu_logo_white_01"
-        />
+        android:src="@drawable/ic_wgu_logo_white_01" />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button"
             android:layout_width="110dp"

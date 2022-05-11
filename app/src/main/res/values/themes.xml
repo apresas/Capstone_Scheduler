@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.CourseScheduler" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#003366</item>
-        <item name="colorPrimaryVariant">#003f72</item>
+        <item name="colorPrimary">@color/ESC_Main</item>
+        <item name="colorPrimaryVariant">@color/ESC_Alt</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>

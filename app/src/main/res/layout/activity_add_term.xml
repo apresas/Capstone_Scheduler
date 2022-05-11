@@ -147,7 +147,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="bottom|end"
                 android:src="@drawable/ic_add"
-                app:backgroundTint="#002f51"
+                app:backgroundTint="@color/ESC_Main"
                 app:tint="@color/white"
 
                 />

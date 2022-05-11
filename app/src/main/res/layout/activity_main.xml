@@ -5,36 +5,61 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#002f51"
+    android:background="#3a9358"
     android:layout_gravity="center"
-    tools:context=".UI.MainActivity">
+    tools:context=".UI.MainActivity"
+    >
+
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        >
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="245dp"
-        android:layout_height="308dp"
-        android:src="@drawable/ic_wgu_logo_white_01"
-        />
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginBottom="100dp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:src="@drawable/ic_esc_logo" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button"
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
-        android:onClick="enterHere"
-        android:text="Enter"
-        android:layout_below="@id/imageView"
-        android:layout_centerHorizontal="true"
-        android:textColor="#002f51"
-        app:backgroundTint="@color/white"
-        app:cornerRadius="30dp"
- />
+        <EditText
+            android:id="@+id/edit_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/logo"
+            android:backgroundTint="@color/white"
+            android:hint="Email"
+            android:paddingLeft="10dp"
+            android:textColorHint="@color/white" />
 
-</RelativeLayout>
+        <EditText
+            android:id="@+id/edit_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edit_username"
+            android:layout_marginTop="25dp"
+            android:backgroundTint="@color/white"
+            android:hint="Password"
+            android:paddingLeft="10dp"
+            android:textColorHint="@color/white" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_below="@id/edit_password"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:onClick="enterHere"
+            android:text="Login"
+            android:textColor="#3a9358"
+            app:backgroundTint="@color/white" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
