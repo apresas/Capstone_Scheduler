@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Course Scheduler</string>
+    <string name="channel_name">myChannel</string>
+    <string name="channel_description">myChannelDescription</string>
+    
+    <string-array name="status">
+        <item>In Progress</item>
+        <item>Completed</item>
+        <item>Dropped</item>
+        <item>Plan to Take</item>
+    </string-array>
+
+    <string-array name="type">
+        <item>Objective</item>
+        <item>Performance</item>
+    </string-array>
+
+    <string-array name="instructor">
+        <item>John Doe | jdoe@email.com | 888-888-8888</item>
+        <item>Jane Doe | jdoe2@email.com | 888-888-8889</item>
+        <item>Tim Tom | ttom@email.com | 888-888-8887</item>
+    </string-array>
+</resources>
