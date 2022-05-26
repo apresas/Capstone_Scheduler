@@ -5,6 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.coursescheduler.Database.ScheduleRepo;
 import com.example.coursescheduler.Entity.Assessment;
@@ -16,14 +20,31 @@ import com.example.coursescheduler.R;
 
 public class MainActivity extends AppCompatActivity {
     public static int numAlert;
+    public EditText editUsername;
+    public EditText editPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
+        editUsername = findViewById(R.id.emailField);
+        editPassword = findViewById(R.id.password_field);
+
     }
     public void enterHere(View view) {
-        Intent intent = new Intent(MainActivity.this, TermActivity.class);
-        startActivity(intent);
+        String userPassword = editPassword.getText().toString();
+        String userUsername = editUsername.getText().toString();
+        if (userPassword.equals("password") && userUsername.equals("username")) {
+            Intent intent = new Intent(MainActivity.this, TermActivity.class);
+            startActivity(intent);
+            editUsername.setText("");
+            editPassword.setText("");
+        } else {
+            Toast.makeText(MainActivity.this, "Please Enter Valid Username and Password", Toast.LENGTH_SHORT).show();
+        }
+
 
 //        ScheduleRepo repo = new ScheduleRepo(getApplication());
 //        Assessment assessment = new Assessment("Database Project", "Performance","01/01/22", "05/30/22", 1);

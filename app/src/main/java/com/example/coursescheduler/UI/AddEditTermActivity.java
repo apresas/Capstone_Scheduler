@@ -34,6 +34,8 @@ import com.example.coursescheduler.Entity.Note;
 import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,9 +60,10 @@ public class AddEditTermActivity extends AppCompatActivity {
             "com.example.coursescheduler.EXTRA_END";
 
     private TextView editTermID;
-    private EditText termTitle;
-    private TextView startDate;
-    private TextView endDate;
+    private TextInputEditText termTitle;
+    private TextInputEditText startDate;
+    private TextInputLayout startField;
+    private TextInputEditText endDate;
     DatePickerDialog.OnDateSetListener startDP;
     DatePickerDialog.OnDateSetListener endDP;
     final Calendar calendarStart = Calendar.getInstance();
@@ -76,9 +79,12 @@ public class AddEditTermActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_term);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         editTermID = findViewById(R.id.edit_text_termID);
-        termTitle = findViewById(R.id.edit_text_termTitle);
-        startDate = findViewById(R.id.editStart);
-        endDate = findViewById(R.id.editEnd);
+        termTitle = findViewById(R.id.text_input);
+        startDate = findViewById(R.id.start_input);
+        startDate.setKeyListener(null);
+        startField = findViewById(R.id.start_field);
+        endDate = findViewById(R.id.end_input);
+        endDate.setKeyListener(null);
         dateFormat = "MM/dd/yy";
         sdf = new SimpleDateFormat(dateFormat, Locale.US);
 

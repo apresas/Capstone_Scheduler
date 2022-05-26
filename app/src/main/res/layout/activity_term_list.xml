@@ -19,7 +19,7 @@
             app:backgroundTint="@color/ESC_Main"
             android:src="@drawable/ic_add"
             app:tint="@color/white"
-            android:layout_gravity="bottom|end"
+            android:layout_gravity="bottom|center"
             android:layout_margin="32dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
