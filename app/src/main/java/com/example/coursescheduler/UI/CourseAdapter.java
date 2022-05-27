@@ -36,8 +36,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         int termID = currentCourse.getTermID();
         holder.courseIDTextView.setText(Integer.toString(ID));
         holder.textViewTitle.setText(currentCourse.getCourseTitle());
-        holder.textViewTermID.setText(Integer.toString(termID));
-        holder.textViewStatus.setText(currentCourse.getStatus());
+//        holder.textViewTermID.setText(Integer.toString(termID));
+//        holder.textViewStatus.setText(currentCourse.getStatus());
         holder.textViewStart.setText(currentCourse.getStartDate());
         holder.textViewEnd.setText(currentCourse.getEndDate());
 
@@ -74,7 +74,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
             textViewTitle = itemView.findViewById(R.id.text_view_course_title);
             textViewTermID = itemView.findViewById(R.id.edit_termID);
             textViewInstructor = itemView.findViewById(R.id.instuctorName);
-            textViewStatus = itemView.findViewById(R.id.edit_status);
+//            textViewStatus = itemView.findViewById(R.id.edit_status);
             textViewStart = itemView.findViewById(R.id.edit_course_start);
             textViewEnd = itemView.findViewById(R.id.edit_course_end);
 

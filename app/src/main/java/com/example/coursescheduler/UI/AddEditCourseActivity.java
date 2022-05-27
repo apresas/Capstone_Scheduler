@@ -481,34 +481,34 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.save_course:
-                saveCourse();
-                return true;
-            case R.id.notify:
-                String dateFromScreen = startDate.getText().toString();
-                String endFromScreen = endDate.getText().toString();
-                Date date = null;
-                Date eDate = null;
-                try {
-                    date = sdf.parse(dateFromScreen);
-                    eDate = sdf.parse(endFromScreen);
-                } catch (ParseException e){
-                    e.printStackTrace();
-                }
-                Long trigger = date.getTime();
-                Intent intent = new Intent(AddEditCourseActivity.this, MyReceiver.class);
-                String title = courseTitle.getText().toString();
-                intent.putExtra("key", "Course: " + title + " Starts today: " + dateFromScreen + " and ends: " + endFromScreen);
-                PendingIntent sender = PendingIntent.getBroadcast(AddEditCourseActivity.this, MainActivity.numAlert++, intent, 0);
-                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.save_course:
+//                saveCourse();
+//                return true;
+//            case R.id.notify:
+//                String dateFromScreen = startDate.getText().toString();
+//                String endFromScreen = endDate.getText().toString();
+//                Date date = null;
+//                Date eDate = null;
+//                try {
+//                    date = sdf.parse(dateFromScreen);
+//                    eDate = sdf.parse(endFromScreen);
+//                } catch (ParseException e){
+//                    e.printStackTrace();
+//                }
+//                Long trigger = date.getTime();
+//                Intent intent = new Intent(AddEditCourseActivity.this, MyReceiver.class);
+//                String title = courseTitle.getText().toString();
+//                intent.putExtra("key", "Course: " + title + " Starts today: " + dateFromScreen + " and ends: " + endFromScreen);
+//                PendingIntent sender = PendingIntent.getBroadcast(AddEditCourseActivity.this, MainActivity.numAlert++, intent, 0);
+//                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//                alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+//                return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     private ActivityResultLauncher<Intent> activityUpdateResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
