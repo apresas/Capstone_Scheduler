@@ -5,15 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    tools:context=".UI.AddEditTermActivity">
+    tools:context=".UI.AddEditTermActivity"
+    >
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/popup_bg"
+        android:padding="10dp"
         >
 
         <RelativeLayout
@@ -26,15 +26,16 @@
                 android:id="@+id/termLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
 
                 >
-                <TextView
 
+                <TextView
                     android:id="@+id/termIDTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="20dp"
                     android:text="Select a Course to Add:"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
             </RelativeLayout>
@@ -52,19 +53,17 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:layout_marginBottom="10dp"
                     app:endIconMode="clear_text"
-                    app:startIconDrawable="@drawable/ic_search"
                     app:endIconTint="@color/ESC_Main"
-                    android:layout_centerInParent="true"
-                    >
+                    app:startIconDrawable="@drawable/ic_search">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/text_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Search..."
-
 
 
                         />
@@ -78,7 +77,7 @@
         <RelativeLayout
             android:id="@+id/course_list_title"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="300dp"
             android:layout_below="@id/form_container"
             android:layout_marginTop="10dp"
 
@@ -92,7 +91,7 @@
                 android:paddingRight="5dp">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/assessmentRecyclerView"
+                    android:id="@+id/popupCourseRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
@@ -114,17 +113,20 @@
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             >
+
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/button_add_course"
+                android:id="@+id/button_add_confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_margin="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
                 android:src="@drawable/ic_check"
                 app:backgroundTint="@color/ESC_Main"
-                app:tint="@color/white"
-
-                />
+                app:tint="@color/white" />
 
         </RelativeLayout>
 

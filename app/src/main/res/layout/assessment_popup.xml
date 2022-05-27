@@ -4,16 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingTop="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
     tools:context=".UI.AddEditTermActivity">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/popup_bg"
+        android:padding="10dp"
 
         >
 
@@ -27,7 +25,7 @@
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+
 
                 >
 
@@ -36,7 +34,9 @@
                     android:id="@+id/termIDTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="5dp"
                     android:text="Select an Assessment to Add:"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
             </RelativeLayout>
@@ -80,7 +80,7 @@
         <RelativeLayout
             android:id="@+id/assessment_list_title"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="300dp"
             android:layout_below="@id/form_container"
             android:layout_marginTop="10dp"
 
@@ -90,6 +90,7 @@
                 android:id="@+id/scroll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp">
 

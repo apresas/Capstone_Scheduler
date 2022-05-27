@@ -1,8 +1,12 @@
 package com.example.coursescheduler.UI;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -72,6 +76,10 @@ public class AddEditTermActivity extends AppCompatActivity {
     private CourseViewModel courseViewModel;
     private NoteViewModel noteViewModel;
     static int courseTermID;
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
+    private RecyclerView courseList;
+    Dialog courseDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,18 +97,50 @@ public class AddEditTermActivity extends AppCompatActivity {
         sdf = new SimpleDateFormat(dateFormat, Locale.US);
 
         // Floating Button
-        FloatingActionButton buttonAddTerm = findViewById(R.id.button_add_course);
+        FloatingActionButton buttonAddTerm = findViewById(R.id.button_open_course);
 
         // Go to AddEditCourse
         buttonAddTerm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(AddEditTermActivity.this, AddEditCourseActivity.class);
-                String termID = editTermID.getText().toString();
-                intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, termID);
-                activityResultLauncher.launch(intent);
+
+//                courseDialog.setContentView(R.layout.course_popup);
+//
+//                courseDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//
+//                courseDialog.show();
+
+//                courseDialog.getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+                openDialog();
+
+
+//                Intent intent = new Intent(AddEditTermActivity.this, AddEditCourseActivity.class);
+//                String termID = editTermID.getText().toString();
+//                intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, termID);
+//                activityResultLauncher.launch(intent);
             }
         });
+
+
+//        // Populate Popup
+//        courseList = findViewById(R.id.popupCourseRecyclerView);
+//
+//        courseList.setLayoutManager(new LinearLayoutManager(this));
+//        courseList.setHasFixedSize(true);
+//
+//        final CourseAdapter courseAdapter = new CourseAdapter();
+//        courseList.setAdapter(courseAdapter);
+//
+//        courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
+//        courseViewModel.getAssignedCourses(getIntent().getIntExtra(EXTRA_ID, -1)).observe(this, new Observer<List<Course>>() {
+//            @Override
+//            public void onChanged(List<Course> courses) {
+//                courseAdapter.setCourse(courses);
+//            }
+//        });
+
 
         // Recycler View
         RecyclerView recyclerView = findViewById(R.id.courseRecyclerView);
@@ -338,4 +378,13 @@ public class AddEditTermActivity extends AppCompatActivity {
                 }
             }
     );
+
+    public void openDialog() {
+        CourseDialog courseDialog = new CourseDialog();
+        courseDialog.show(getSupportFragmentManager(), "Add Course Dialog");
+
+
+
+    }
+
 }
