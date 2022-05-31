@@ -15,6 +15,7 @@ import com.example.coursescheduler.Entity.Assessment;
 import com.example.coursescheduler.Entity.Course;
 import com.example.coursescheduler.Entity.Instructor;
 import com.example.coursescheduler.Entity.Note;
+import com.example.coursescheduler.Entity.ScheduledCourse;
 import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.R;
 
@@ -46,7 +47,24 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-//        ScheduleRepo repo = new ScheduleRepo(getApplication());
+        ScheduleRepo repo = new ScheduleRepo(getApplication());
+        ScheduledCourse sc = new ScheduledCourse("Software 1", "01/01/22)", "06/01/22");
+        ScheduledCourse sc1 = new ScheduledCourse("Software 2", "01/01/22)", "06/01/22");
+        ScheduledCourse sc2 = new ScheduledCourse("Web Development", "01/01/22)", "06/01/22");
+        ScheduledCourse sc3 = new ScheduledCourse("Data Management", "01/01/22)", "06/01/22");
+        ScheduledCourse sc4 = new ScheduledCourse("Scripting and Programming", "01/01/22)", "06/01/22");
+        ScheduledCourse sc5 = new ScheduledCourse("UI Design", "01/01/22)", "06/01/22");
+        ScheduledCourse sc6 = new ScheduledCourse("Mobile App Development", "01/01/22)", "06/01/22");
+
+        repo.insertScheduledCourse(sc);
+        repo.insertScheduledCourse(sc1);
+        repo.insertScheduledCourse(sc2);
+        repo.insertScheduledCourse(sc3);
+        repo.insertScheduledCourse(sc4);
+        repo.insertScheduledCourse(sc5);
+        repo.insertScheduledCourse(sc6);
+
+
 //        Assessment assessment = new Assessment("Database Project", "Performance","01/01/22", "05/30/22", 1);
 //        Assessment assessment1 = new Assessment("Mobile App Project", "Performance","06/01/22", "06/30/22", 2);
 //        Assessment assessment2 = new Assessment("Software Test", "Objective","07/01/22", "07/30/22", 3);

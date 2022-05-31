@@ -1,27 +1,24 @@
 package com.example.coursescheduler.UI;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coursescheduler.Entity.Course;
+import com.example.coursescheduler.Entity.ScheduledCourse;
 import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHolder> {
-    private List<Course> courses = new ArrayList();
+public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourseAdapter.ScheduledCourseHolder> {
+    private List<ScheduledCourse> sc = new ArrayList();
     private List<Term> terms = new ArrayList();
     private OnItemClickListener listener;
     AddEditCourseActivity addEditCourseActivity;
@@ -30,59 +27,49 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
 
     @NonNull
     @Override
-    public CourseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ScheduledCourseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.course_item, parent, false);
-        return new CourseHolder(itemView);
+                .inflate(R.layout.course_item_add, parent, false);
+        return new ScheduledCourseHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CourseHolder holder, int position) {
-        Course currentCourse = courses.get(position);
+    public void onBindViewHolder(@NonNull ScheduledCourseHolder holder, int position) {
+        ScheduledCourse currentCourse = sc.get(position);
         int ID = currentCourse.getCourseID();
-        int termID = currentCourse.getTermID();
         holder.courseIDTextView.setText(Integer.toString(ID));
         holder.textViewTitle.setText(currentCourse.getCourseTitle());
-        holder.textViewTermID.setText(Integer.toString(termID));
-//        holder.textViewStatus.setText(currentCourse.getStatus());
         holder.textViewStart.setText(currentCourse.getStartDate());
         holder.textViewEnd.setText(currentCourse.getEndDate());
-
 
     }
 
     @Override
     public int getItemCount() {
-        return courses.size();
+        return sc.size();
     }
 
-    public void setCourse(List<Course> courses) {
-        this.courses = courses;
+    public void setScheduledCourse(List<ScheduledCourse> sc) {
+        this.sc = sc;
         notifyDataSetChanged();
     }
 
-    public Course getCourseAt(int position) {
-        return courses.get(position);
+    public ScheduledCourse getScheduledCourseAt(int position) {
+        return sc.get(position);
     }
 
-    class CourseHolder extends RecyclerView.ViewHolder {
+    class ScheduledCourseHolder extends RecyclerView.ViewHolder {
 
         private TextView courseIDTextView;
         private TextView textViewTitle;
-        private TextView textViewTermID;
-        private TextView textViewInstructor;
-        private TextView textViewStatus;
         private TextView textViewStart;
         private TextView textViewEnd;
         private Button addBtn;
 
-        public CourseHolder(@NonNull View itemView) {
+        public ScheduledCourseHolder(@NonNull View itemView) {
             super(itemView);
             courseIDTextView = itemView.findViewById(R.id.text_view_courseID);
             textViewTitle = itemView.findViewById(R.id.text_view_course_title);
-            textViewTermID = itemView.findViewById(R.id.edit_termID);
-//            textViewInstructor = itemView.findViewById(R.id.instuctorName);
-//            textViewStatus = itemView.findViewById(R.id.edit_status);
             textViewStart = itemView.findViewById(R.id.edit_course_start);
             textViewEnd = itemView.findViewById(R.id.edit_course_end);
             addBtn = itemView.findViewById(R.id.add_course_btn);
@@ -93,7 +80,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     if (listener != null && position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(courses.get(position));
+                        listener.onItemClick(sc.get(position));
                     }
                 }
             });
@@ -103,7 +90,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
 
 
     public interface OnItemClickListener {
-        void onItemClick(Course course);
+        void onItemClick(ScheduledCourse sc);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

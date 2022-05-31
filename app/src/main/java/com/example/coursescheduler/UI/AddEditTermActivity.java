@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
@@ -79,6 +80,7 @@ public class AddEditTermActivity extends AppCompatActivity {
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private RecyclerView courseList;
+
     Dialog courseDialog;
 
     @Override
@@ -123,23 +125,6 @@ public class AddEditTermActivity extends AppCompatActivity {
             }
         });
 
-
-//        // Populate Popup
-//        courseList = findViewById(R.id.popupCourseRecyclerView);
-//
-//        courseList.setLayoutManager(new LinearLayoutManager(this));
-//        courseList.setHasFixedSize(true);
-//
-//        final CourseAdapter courseAdapter = new CourseAdapter();
-//        courseList.setAdapter(courseAdapter);
-//
-//        courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
-//        courseViewModel.getAssignedCourses(getIntent().getIntExtra(EXTRA_ID, -1)).observe(this, new Observer<List<Course>>() {
-//            @Override
-//            public void onChanged(List<Course> courses) {
-//                courseAdapter.setCourse(courses);
-//            }
-//        });
 
 
         // Recycler View
@@ -382,6 +367,7 @@ public class AddEditTermActivity extends AppCompatActivity {
     public void openDialog() {
         CourseDialog courseDialog = new CourseDialog();
         courseDialog.show(getSupportFragmentManager(), "Add Course Dialog");
+
 
 
 

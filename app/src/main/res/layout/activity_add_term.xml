@@ -63,7 +63,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    app:endIconMode="clear_text">
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/ESC_Main"
+                    >
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/text_input"

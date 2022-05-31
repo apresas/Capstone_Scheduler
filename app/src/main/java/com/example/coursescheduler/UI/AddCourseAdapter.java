@@ -1,12 +1,11 @@
 package com.example.coursescheduler.UI;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,31 +19,29 @@ import com.example.coursescheduler.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHolder> {
+public class AddCourseAdapter extends RecyclerView.Adapter<AddCourseAdapter.AddCourseHolder> {
     private List<Course> courses = new ArrayList();
     private List<Term> terms = new ArrayList();
     private OnItemClickListener listener;
     AddEditCourseActivity addEditCourseActivity;
-    static int courseID;
 
 
     @NonNull
     @Override
-    public CourseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AddCourseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.course_item, parent, false);
-        return new CourseHolder(itemView);
+                .inflate(R.layout.course_item_add, parent, false);
+        return new AddCourseHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CourseHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AddCourseHolder holder, int position) {
         Course currentCourse = courses.get(position);
         int ID = currentCourse.getCourseID();
         int termID = currentCourse.getTermID();
         holder.courseIDTextView.setText(Integer.toString(ID));
         holder.textViewTitle.setText(currentCourse.getCourseTitle());
         holder.textViewTermID.setText(Integer.toString(termID));
-//        holder.textViewStatus.setText(currentCourse.getStatus());
         holder.textViewStart.setText(currentCourse.getStartDate());
         holder.textViewEnd.setText(currentCourse.getEndDate());
 
@@ -65,7 +62,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         return courses.get(position);
     }
 
-    class CourseHolder extends RecyclerView.ViewHolder {
+    class AddCourseHolder extends RecyclerView.ViewHolder {
 
         private TextView courseIDTextView;
         private TextView textViewTitle;
@@ -74,19 +71,16 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         private TextView textViewStatus;
         private TextView textViewStart;
         private TextView textViewEnd;
-        private Button addBtn;
 
-        public CourseHolder(@NonNull View itemView) {
+        public AddCourseHolder(@NonNull View itemView) {
             super(itemView);
             courseIDTextView = itemView.findViewById(R.id.text_view_courseID);
             textViewTitle = itemView.findViewById(R.id.text_view_course_title);
             textViewTermID = itemView.findViewById(R.id.edit_termID);
-//            textViewInstructor = itemView.findViewById(R.id.instuctorName);
+            textViewInstructor = itemView.findViewById(R.id.instuctorName);
 //            textViewStatus = itemView.findViewById(R.id.edit_status);
             textViewStart = itemView.findViewById(R.id.edit_course_start);
             textViewEnd = itemView.findViewById(R.id.edit_course_end);
-            addBtn = itemView.findViewById(R.id.add_course_btn);
-
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -98,9 +92,48 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
                 }
             });
 
+            itemView.findViewById(R.id.add_course_btn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    System.out.println("Test");
+
+                }
+
+                // Save Course
+                private void saveCourse() {
+                    String title = textViewTitle.getText().toString();
+                    String start = textViewStart.getText().toString();
+                    String end = textViewEnd.getText().toString();
+                    String termID = textViewTermID.getText().toString();
+                    String courseID = courseIDTextView.getText().toString();
+
+
+                    Intent data = new Intent();
+                    data.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, termID);
+                    data.putExtra(AddEditCourseActivity.EXTRA_TITLE, title);
+                    data.putExtra(AddEditCourseActivity.EXTRA_START, start);
+                    data.putExtra(AddEditCourseActivity.EXTRA_END, end);
+
+                    int id = addEditCourseActivity.getIntent().getIntExtra(AddEditCourseActivity.EXTRA_COURSE_ID, -1);
+                    System.out.println("Save Course ID: " + id);
+                    if (id != -1) {
+                        data.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID, id);
+                        System.out.println("Save Course IF ID: " + id);
+                    }
+                    System.out.println("Save Course ELSE ID: " + id);
+
+                    addEditCourseActivity.setResult(Activity.RESULT_OK, data);
+                    addEditCourseActivity.finish();
+
+//                    courseID = id;
+                    System.out.println("courseID: " + courseID + "ID: " + id);
+
+
+                }
+            });
+
         }
     }
-
 
     public interface OnItemClickListener {
         void onItemClick(Course course);

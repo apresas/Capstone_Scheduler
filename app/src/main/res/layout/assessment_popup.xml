@@ -58,6 +58,7 @@
                     app:endIconMode="clear_text"
                     app:startIconDrawable="@drawable/ic_search"
                     app:endIconTint="@color/ESC_Main"
+                    app:startIconTint="@color/ESC_Main"
                     android:layout_centerInParent="true"
                     >
 
