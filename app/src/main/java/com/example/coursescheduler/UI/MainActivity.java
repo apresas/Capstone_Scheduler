@@ -47,24 +47,24 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        ScheduleRepo repo = new ScheduleRepo(getApplication());
-        ScheduledCourse sc = new ScheduledCourse("Software 1", "01/01/22)", "06/01/22");
-        ScheduledCourse sc1 = new ScheduledCourse("Software 2", "01/01/22)", "06/01/22");
-        ScheduledCourse sc2 = new ScheduledCourse("Web Development", "01/01/22)", "06/01/22");
-        ScheduledCourse sc3 = new ScheduledCourse("Data Management", "01/01/22)", "06/01/22");
-        ScheduledCourse sc4 = new ScheduledCourse("Scripting and Programming", "01/01/22)", "06/01/22");
-        ScheduledCourse sc5 = new ScheduledCourse("UI Design", "01/01/22)", "06/01/22");
-        ScheduledCourse sc6 = new ScheduledCourse("Mobile App Development", "01/01/22)", "06/01/22");
-
-        repo.insertScheduledCourse(sc);
-        repo.insertScheduledCourse(sc1);
-        repo.insertScheduledCourse(sc2);
-        repo.insertScheduledCourse(sc3);
-        repo.insertScheduledCourse(sc4);
-        repo.insertScheduledCourse(sc5);
-        repo.insertScheduledCourse(sc6);
-
-
+//        ScheduleRepo repo = new ScheduleRepo(getApplication());
+//        ScheduledCourse sc = new ScheduledCourse("Software 1", "01/01/22)", "06/01/22");
+//        ScheduledCourse sc1 = new ScheduledCourse("Software 2", "01/01/22)", "06/01/22");
+//        ScheduledCourse sc2 = new ScheduledCourse("Web Development", "01/01/22)", "06/01/22");
+//        ScheduledCourse sc3 = new ScheduledCourse("Data Management", "01/01/22)", "06/01/22");
+//        ScheduledCourse sc4 = new ScheduledCourse("Scripting and Programming", "01/01/22)", "06/01/22");
+//        ScheduledCourse sc5 = new ScheduledCourse("UI Design", "01/01/22)", "06/01/22");
+//        ScheduledCourse sc6 = new ScheduledCourse("Mobile App Development", "01/01/22)", "06/01/22");
+//
+//        repo.insertScheduledCourse(sc);
+//        repo.insertScheduledCourse(sc1);
+//        repo.insertScheduledCourse(sc2);
+//        repo.insertScheduledCourse(sc3);
+//        repo.insertScheduledCourse(sc4);
+//        repo.insertScheduledCourse(sc5);
+//        repo.insertScheduledCourse(sc6);
+//
+//
 //        Assessment assessment = new Assessment("Database Project", "Performance","01/01/22", "05/30/22", 1);
 //        Assessment assessment1 = new Assessment("Mobile App Project", "Performance","06/01/22", "06/30/22", 2);
 //        Assessment assessment2 = new Assessment("Software Test", "Objective","07/01/22", "07/30/22", 3);
@@ -78,10 +78,10 @@ public class MainActivity extends AppCompatActivity {
 //        repo.insertTerm(term1);
 //        repo.insertTerm(term2);
 //
-//        Course course = new Course("Software 1", "In Progress","03/01/22", "04/03/22", 1);
-//        Course course1 = new Course("Software 2", "In Progress","05/01/22", "06/01/22", 2);
-//        Course course2 = new Course("Mobile App", "In Progress","06/01/22", "07/01/22", 3);
-//        Course course3 = new Course("Tester","In Progress","06/01/22", "07/01/22", 1);
+//        Course course = new Course("Software 1", "03/01/22", "04/03/22", 1);
+//        Course course1 = new Course("Software 2", "05/01/22", "06/01/22", 2);
+//        Course course2 = new Course("Mobile App", "06/01/22", "07/01/22", 3);
+//        Course course3 = new Course("UI Design","06/01/22", "07/01/22", 1);
 //        repo.insertCourse(course);
 //        repo.insertCourse(course1);
 //        repo.insertCourse(course2);

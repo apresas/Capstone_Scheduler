@@ -14,7 +14,7 @@
             android:padding="8dp">
 
             <TextView
-                android:id="@+id/text_view_courseID"
+                android:id="@+id/text_view_add_courseID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -23,11 +23,11 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <TextView
-                android:id="@+id/text_view_course_title"
+                android:id="@+id/text_view_add_course_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_toStartOf="@id/text_view_courseID"
+                android:layout_toStartOf="@id/text_view_add_courseID"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="Course Title"
@@ -37,7 +37,7 @@
                 android:id="@+id/termIDLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/text_view_course_title"
+                android:layout_below="@+id/text_view_add_course_title"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="60dp"
                 >
@@ -84,7 +84,7 @@
                     android:text="Start:" />
 
                 <TextView
-                    android:id="@+id/edit_course_start"
+                    android:id="@+id/edit_add_course_start"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -111,7 +111,7 @@
                     android:text="End:" />
 
                 <TextView
-                    android:id="@+id/edit_course_end"
+                    android:id="@+id/edit_add_course_end"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"

@@ -31,7 +31,7 @@
             >
 
             <LinearLayout
-                android:id="@+id/termLayout"
+                android:id="@+id/assessmentLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -39,14 +39,14 @@
 
                 <TextView
 
-                    android:id="@+id/termIDTextView"
+                    android:id="@+id/assessmentIDTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Assessment ID:"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 <TextView
-                    android:id="@+id/edit_text_termID"
+                    android:id="@+id/edit_text_assessmentID"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -59,7 +59,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/termLayout"
+                android:layout_below="@+id/assessmentLayout"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp"
                 android:paddingBottom="10dp">

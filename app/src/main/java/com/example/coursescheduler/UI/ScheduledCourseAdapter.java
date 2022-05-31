@@ -1,5 +1,7 @@
 package com.example.coursescheduler.UI;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +20,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourseAdapter.ScheduledCourseHolder> {
+    public static final String EXTRA_COURSE_ID_DISPLAY =
+            "com.example.coursescheduler.EXTRA_COURSE_ID_DISPLAY";
+    public static final String EXTRA_COURSE_ID =
+            "com.example.coursescheduler.EXTRA_ID";
+    public static final String EXTRA_TERM_ID =
+            "com.example.coursescheduler.EXTRA_TERM_ID";
+    public static final String EXTRA_TITLE =
+            "com.example.coursescheduler.EXTRA_TITLE";
+    public static final String EXTRA_INSTRUCTOR =
+            "com.example.coursescheduler.EXTRA_INSTRUCTOR";
+    public static final String EXTRA_INSTRUCTOR_POS =
+            "com.example.coursescheduler.EXTRA_INSTRUCTOR_POS";
+    public static final String EXTRA_STATUS =
+            "com.example.coursescheduler.EXTRA_STATUS";
+    public static final String EXTRA_STATUS_POS =
+            "com.example.coursescheduler.EXTRA_STATUS_POS";
+    public static final String EXTRA_START =
+            "com.example.coursescheduler.EXTRA_START";
+    public static final String EXTRA_END =
+            "com.example.coursescheduler.EXTRA_END";
+
     private List<ScheduledCourse> sc = new ArrayList();
     private List<Term> terms = new ArrayList();
     private OnItemClickListener listener;
-    AddEditCourseActivity addEditCourseActivity;
-    static int courseID;
+    CourseViewModel courseViewModel;
+    AddEditTermActivity addEditTermActivity;
+    CourseDialog courseDialog;
+    static String termID;
+    static int courseTermID;
 
 
     @NonNull
@@ -64,14 +90,16 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
         private TextView textViewTitle;
         private TextView textViewStart;
         private TextView textViewEnd;
+        private TextView editTermID;
         private Button addBtn;
 
         public ScheduledCourseHolder(@NonNull View itemView) {
             super(itemView);
-            courseIDTextView = itemView.findViewById(R.id.text_view_courseID);
-            textViewTitle = itemView.findViewById(R.id.text_view_course_title);
-            textViewStart = itemView.findViewById(R.id.edit_course_start);
-            textViewEnd = itemView.findViewById(R.id.edit_course_end);
+            courseIDTextView = itemView.findViewById(R.id.text_view_add_courseID);
+            textViewTitle = itemView.findViewById(R.id.text_view_add_course_title);
+            textViewStart = itemView.findViewById(R.id.edit_add_course_start);
+            textViewEnd = itemView.findViewById(R.id.edit_add_course_end);
+            editTermID = itemView.findViewById(R.id.edit_termID);
             addBtn = itemView.findViewById(R.id.add_course_btn);
 
 
@@ -85,8 +113,67 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
                 }
             });
 
+            itemView.findViewById(R.id.add_course_btn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                    String title = textViewTitle.getText().toString();
+//                    String start = textViewStart.getText().toString();
+//                    String end = textViewEnd.getText().toString();
+//
+//                    Course course = new Course(title, start, end, courseTermID);
+//                    courseViewModel.insert(course);
+
+//                    addEditTermActivity.saveScheduledCourse();
+//                    saveCourse();
+//                    String title = textViewTitle.getText().toString();
+//                    String start = textViewStart.getText().toString();
+//                    String end = textViewEnd.getText().toString();
+//
+//                    Course course = new Course(title, start, end, courseTermID);
+//
+//                    courseViewModel.insert(course);
+
+                }
+
+                // Save Course
+//                private void saveCourse() {
+//                    String title = textViewTitle.getText().toString();
+//                    String start = textViewStart.getText().toString();
+//                    String end = textViewEnd.getText().toString();
+//                    String courseID = courseIDTextView.getText().toString();
+////                    String termID = textViewTermID.getText().toString();
+//
+//
+//
+//                    Intent data = new Intent();
+//                    data.putExtra(addEditTermActivity.EXTRA_TERM_ID, termID);
+//                    data.putExtra(addEditTermActivity.EXTRA_COURSE_ID, courseID);
+//                    data.putExtra(addEditTermActivity.EXTRA_TITLE, title);
+//                    data.putExtra(addEditTermActivity.EXTRA_START, start);
+//                    data.putExtra(addEditTermActivity.EXTRA_END, end);
+//
+//
+////                    int id = addEditCourseActivity.getIntent().getIntExtra(AddEditCourseActivity.EXTRA_COURSE_ID, -1);
+////                    System.out.println("Save Course ID: " + id);
+////                    if (id != -1) {
+////                        data.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID, id);
+////                        System.out.println("Save Course IF ID: " + id);
+////                    }
+////                    System.out.println("Save Course ELSE ID: " + id);
+//
+//                    addEditTermActivity.setResult(Activity.RESULT_OK, data);
+//                    addEditTermActivity.finish();
+////
+//////                    courseID = id;
+////                    System.out.println("courseID: " + courseID + "ID: " + id);
+//
+//
+//                }
+            });
         }
     }
+
+
 
 
     public interface OnItemClickListener {
