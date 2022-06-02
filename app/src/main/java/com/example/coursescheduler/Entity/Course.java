@@ -8,7 +8,7 @@ import com.example.coursescheduler.DAO.CourseDAO;
 
 @Entity(tableName = "courses")
 public class Course {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     private int courseID;
 
     private String courseTitle;
@@ -17,11 +17,12 @@ public class Course {
     private int termID;
 
     // Constructor
-    public Course(String courseTitle, String startDate, String endDate, int termID) {
+    public Course(String courseTitle, String startDate, String endDate, int termID, int courseID) {
         this.courseTitle = courseTitle;
         this.startDate = startDate;
         this.endDate = endDate;
         this.termID = termID;
+        this.courseID = courseID;
     }
 
     // Getters
@@ -32,8 +33,6 @@ public class Course {
     public String getCourseTitle() {
         return courseTitle;
     }
-
-
 
     public String getStartDate() {
         return startDate;

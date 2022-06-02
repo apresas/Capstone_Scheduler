@@ -127,7 +127,7 @@
             </RelativeLayout>
 
             <Button
-                android:id="@+id/add_course_btn"
+                android:id="@+id/add_assessments_btn"
                 android:layout_width="50dp"
                 android:layout_height="125dp"
                 android:layout_alignParentEnd="true"

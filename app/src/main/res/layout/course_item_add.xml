@@ -56,7 +56,7 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                     <TextView
-                        android:id="@+id/edit_termID"
+                        android:id="@+id/edit_add_termID"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"

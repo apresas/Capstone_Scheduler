@@ -449,18 +449,16 @@ public class ScheduleRepo {
 
     // SCHEDULED COURSE
     public void insertScheduledCourse(ScheduledCourse sc){
-        new InsertSchduledCourseAsyncTask(scDAO).execute(sc);
+        new InsertScheduledCourseAsyncTask(scDAO).execute(sc);
     }
 
     public void updateScheduledCourse(ScheduledCourse sc){
-        new UpdateSchduledCourseAsyncTask(scDAO).execute(sc);
+        new UpdateScheduledCourseAsyncTask(scDAO).execute(sc);
     }
 
     public void deleteScheduledCourse(ScheduledCourse sc){
-        new DeleteSchduledCourseAsyncTask(scDAO).execute(sc);
+        new DeleteScheduledCourseAsyncTask(scDAO).execute(sc);
     }
-
-//    public void deleteAllCourses() {new DeleteAllCoursesAsyncTask(courseDAO).execute();}
 
     public LiveData<List<ScheduledCourse>> getAllSchduledCourses() {
         return allScheduledCourses;
@@ -482,10 +480,10 @@ public class ScheduleRepo {
 
 
     // SCHEDULED COURSE ASYNC
-    private static class InsertSchduledCourseAsyncTask extends AsyncTask<ScheduledCourse, Void, Void> {
+    private static class InsertScheduledCourseAsyncTask extends AsyncTask<ScheduledCourse, Void, Void> {
         private ScheduledCourseDAO scDAO;
 
-        private InsertSchduledCourseAsyncTask(ScheduledCourseDAO scDAO) {
+        private InsertScheduledCourseAsyncTask(ScheduledCourseDAO scDAO) {
             this.scDAO = scDAO;
         }
 
@@ -496,10 +494,10 @@ public class ScheduleRepo {
         }
     }
 
-    private static class UpdateSchduledCourseAsyncTask extends AsyncTask<ScheduledCourse, Void, Void> {
+    private static class UpdateScheduledCourseAsyncTask extends AsyncTask<ScheduledCourse, Void, Void> {
         private ScheduledCourseDAO scDAO;
 
-        private UpdateSchduledCourseAsyncTask(ScheduledCourseDAO scDAO) {
+        private UpdateScheduledCourseAsyncTask(ScheduledCourseDAO scDAO) {
             this.scDAO = scDAO;
         }
 
@@ -510,10 +508,10 @@ public class ScheduleRepo {
         }
     }
 
-    private static class DeleteSchduledCourseAsyncTask extends AsyncTask<ScheduledCourse, Void, Void> {
+    private static class DeleteScheduledCourseAsyncTask extends AsyncTask<ScheduledCourse, Void, Void> {
         private ScheduledCourseDAO scDAO;
 
-        private DeleteSchduledCourseAsyncTask(ScheduledCourseDAO scDAO) {
+        private DeleteScheduledCourseAsyncTask(ScheduledCourseDAO scDAO) {
             this.scDAO = scDAO;
         }
 

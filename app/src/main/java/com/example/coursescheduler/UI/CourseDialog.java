@@ -10,8 +10,10 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,12 +26,16 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.appcompat.view.menu.MenuView;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.coursescheduler.Database.ScheduleDB;
+import com.example.coursescheduler.Database.ScheduleRepo;
 import com.example.coursescheduler.Entity.Course;
 import com.example.coursescheduler.Entity.ScheduledCourse;
 import com.example.coursescheduler.R;
@@ -37,9 +43,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class CourseDialog extends AppCompatDialogFragment {
+public class CourseDialog extends DialogFragment implements ScheduledCourseAdapter.OnCourseListener {
     public static final String EXTRA_COURSE_ID_DISPLAY =
             "com.example.coursescheduler.EXTRA_COURSE_ID_DISPLAY";
     public static final String EXTRA_COURSE_ID =
@@ -62,9 +69,10 @@ public class CourseDialog extends AppCompatDialogFragment {
             "com.example.coursescheduler.EXTRA_END";
 
     private TextInputEditText search;
-    private RecyclerView scheduledCourseList;
+    RecyclerView scheduledCourseList;
+    private List<ScheduledCourse> sc = new ArrayList();
     private FloatingActionButton confirmBtn;
-    private Button addBtn;
+    Button addBtn;
     private CourseDialog courseDialog;
     ScheduledCourseViewModel scViewModel;
     CourseAdapter adapter;
@@ -76,28 +84,38 @@ public class CourseDialog extends AppCompatDialogFragment {
     TextView startDate;
     TextView endDate;
     TextView cID;
-    static int courseID;
+    static int courseTermID;
     View addItem;
+    ScheduledCourseAdapter scAdapter;
+    private OnInputListener listener;
+    public ScheduledCourseAdapter.OnCourseListener courseListener;
+
 
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.course_popup, null);
+    public void onCourseClick(int position) {
+        ScheduledCourse scCourse = sc.get(position);
+        String title = scCourse.getCourseTitle();
+        String start = scCourse.getStartDate();
+        String end = scCourse.getEndDate();
+        int courseID = scCourse.getCourseID();
+//        Course course = new Course(title, start, end, CourseDialog.courseTermID, courseID);
+    }
 
-        builder.setView(view)
-                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                    }
-                })
-                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+    public interface OnInputListener {
+        void sendInput(String title, String start, String end, int courseTermID, int courseID);
+    }
 
-                    }
-                });
+    public OnInputListener mOnInputListener;
+
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//        inflater = getActivity().getLayoutInflater();
+//        View view = inflater.inflate(R.layout.course_popup, container, true);
+        View view = inflater.inflate(R.layout.course_popup, container, false);
 
         scheduledCourseList = view.findViewById(R.id.popupCourseRecyclerView);
         addBtn = view.findViewById(R.id.add_course_btn);
@@ -106,6 +124,47 @@ public class CourseDialog extends AppCompatDialogFragment {
         startDate = view.findViewById(R.id.edit_add_course_start);
         endDate = view.findViewById(R.id.edit_add_course_end);
         cID = view.findViewById(R.id.text_view_add_courseID);
+
+        ScheduledCourseAdapter scheduledCourseAdapter = new ScheduledCourseAdapter(sc,courseListener);
+        System.out.println("NEW Adapter size:" + sc.size());
+
+//        addBtn = courseHolder.itemView.findViewById(R.id.add_course_btn);
+
+
+//        addBtn = courseHolder.itemView.findViewById(R.id.add_course_btn);
+
+//        addBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String title = courseTitle.getText().toString();
+//                String start = startDate.getText().toString();
+//                String end = endDate.getText().toString();
+//                String courseTermIDString = tID.getText().toString();
+//                int courseTermID = Integer.parseInt(courseTermIDString);
+//                String courseIDString = cID.getText().toString();
+//                int courseID = Integer.parseInt(courseIDString);
+//                listener.sendInput(title,start,end,courseTermID, courseID);
+//            }
+//        });
+
+//        builder.setView(view)
+//                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                    }
+//                })
+//                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                    }
+//                });
+
+
+
+
+//        mOnInputListener.sendInput(title);
 
 
 //        addBtn.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +195,7 @@ public class CourseDialog extends AppCompatDialogFragment {
         scheduledCourseList.setHasFixedSize(true);
 
         // Adapter
-        final ScheduledCourseAdapter adapter = new ScheduledCourseAdapter();
+        final ScheduledCourseAdapter adapter = new ScheduledCourseAdapter(sc, this);
         scheduledCourseList.setAdapter(adapter);
 
 
@@ -149,12 +208,6 @@ public class CourseDialog extends AppCompatDialogFragment {
                 adapter.setScheduledCourse(sc);
             }
         });
-//        courseViewModel.getAssignedCourses(getActivity().getIntent().getIntExtra(EXTRA_ID, -1)).observe(this, new Observer<List<Course>>() {
-//            @Override
-//            public void onChanged(List<Course> courses) {
-//                adapter.setCourse(courses);
-//            }
-//        });
 
 
         // Touch helper
@@ -175,26 +228,22 @@ public class CourseDialog extends AppCompatDialogFragment {
 
 
         // OnClick Fill Form
-//        adapter.setOnItemClickListener(new ScheduledCourseAdapter().OnItemClickListener() {
-//            @Override
-//            public void onItemClick(ScheduledCourse sc) {
-//                Intent intent = new Intent(addEditTermActivity, AddEditCourseActivity.class);
-//                intent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID_DISPLAY, String.valueOf(course.getCourseID()));
-//                intent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID, course.getCourseID());
-//                intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, String.valueOf(course.getTermID()));
-//                intent.putExtra(AddEditCourseActivity.EXTRA_TITLE, course.getCourseTitle());
-//                intent.putExtra(AddEditCourseActivity.EXTRA_STATUS, course.getStatus());
-//                intent.putExtra(AddEditCourseActivity.EXTRA_STATUS_POS, AddEditCourseActivity.statusPosition);
-//                intent.putExtra(AddEditCourseActivity.EXTRA_START, course.getStartDate());
-//                intent.putExtra(AddEditCourseActivity.EXTRA_END, course.getEndDate());
-//                activityUpdateResultLauncher.launch(intent);
-//
-//
-//            }
-//        });
-        return builder.create();
+        adapter.setOnItemClickListener(new ScheduledCourseAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(ScheduledCourse sc) {
+                Intent intent = new Intent(courseDialog.context, AddEditTermActivity.class);
+                intent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID_DISPLAY, String.valueOf(sc.getCourseID()));
+                intent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID, sc.getCourseID());
+                intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, String.valueOf(courseTermID));
+                intent.putExtra(AddEditCourseActivity.EXTRA_TITLE, sc.getCourseTitle());
+                intent.putExtra(AddEditCourseActivity.EXTRA_START, sc.getStartDate());
+                intent.putExtra(AddEditCourseActivity.EXTRA_END, sc.getEndDate());
+                activityUpdateResultLauncher.launch(intent);
 
 
+            }
+        });
+        return view;
     }
 
 
@@ -232,7 +281,7 @@ public class CourseDialog extends AppCompatDialogFragment {
 //    }
 
 
-    private ActivityResultLauncher<Intent> activityUpdateResultLauncher = registerForActivityResult(
+    private final ActivityResultLauncher<Intent> activityUpdateResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
@@ -250,10 +299,10 @@ public class CourseDialog extends AppCompatDialogFragment {
                         scViewModel.update(sc);
 
 
-//                        Toast.makeText(addEditTermActivity, "Updated", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(addEditTermActivity, "Updated", Toast.LENGTH_SHORT).show();
 
                     }else {
-//                        Toast.makeText(addEditTermActivity, "NOT Updated", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(addEditTermActivity, "NOT Updated", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -287,15 +336,43 @@ public class CourseDialog extends AppCompatDialogFragment {
 
                         System.out.println("cID: " + cID);
 
-//                        Toast.makeText(addEditTermActivity, "Saved", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(addEditTermActivity, "Saved", Toast.LENGTH_SHORT).show();
 
                     }else {
-//                        Toast.makeText(addEditTermActivity, "Unsuccessful", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(addEditTermActivity, "Unsuccessful", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
     );
 
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof ScheduledCourseAdapter.OnCourseListener) {
+            courseListener = (ScheduledCourseAdapter.OnCourseListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement OnInputListener");
+        }
+        try {
+            courseListener = (ScheduledCourseAdapter.OnCourseListener) getActivity();
+        }catch (ClassCastException e) {
+            System.out.println("onAttach: ClassCastException: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
+
+//    private void initRecyclerView() {
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+//        scheduledCourseList.setLayoutManager(linearLayoutManager);
+//        scAdapter = new ScheduledCourseAdapter(sc,courseListener);
+//        scheduledCourseList.setAdapter(scAdapter);
+//
+//    }
 
 }

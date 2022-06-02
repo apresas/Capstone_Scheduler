@@ -29,6 +29,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -54,7 +55,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AddEditTermActivity extends AppCompatActivity {
+public class AddEditTermActivity extends AppCompatActivity implements ScheduledCourseAdapter.OnCourseListener {
 
     public static final String EXTRA_COURSE_ID =
             "com.example.coursescheduler.EXTRA_COURSE_ID";
@@ -99,9 +100,9 @@ public class AddEditTermActivity extends AppCompatActivity {
     private Button addBtn;
     private List<ScheduledCourse> sc = new ArrayList();
     private ScheduledCourseAdapter.OnItemClickListener listener;
-
-//    Dialog courseDialog;
     CourseDialog courseDialog;
+//    Dialog courseDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +124,8 @@ public class AddEditTermActivity extends AppCompatActivity {
         courseEnd = findViewById(R.id.edit_add_course_end);
         courseID = findViewById(R.id.text_view_add_courseID);
 
+
+
         // Floating Button
         FloatingActionButton buttonAddTerm = findViewById(R.id.button_open_course);
 
@@ -133,8 +136,11 @@ public class AddEditTermActivity extends AppCompatActivity {
 //                courseDialog.termID = editTermID.getText().toString();
 //                scheduledCourseAdapter.termID = editTermID.getText().toString();
 //                ScheduledCourseAdapter.courseTermID = Integer.parseInt(editTermID.getText().toString());
-                createNewCourseDialog();
-//                openDialog();
+//                createNewCourseDialog();
+                String termID = editTermID.getText().toString();
+                ScheduledCourseAdapter.courseTermID = Integer.parseInt(termID);
+//                courseTermID = Integer.parseInt(termID);
+                openDialog();
 
             }
         });
@@ -308,9 +314,11 @@ public class AddEditTermActivity extends AppCompatActivity {
                         String start = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_START);
                         String end = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_END);
                         String termID = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_TERM_ID);
+                        String courseIDString = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_COURSE_ID);
+                        int courseID = Integer.parseInt(courseIDString);
                         int ID = Integer.parseInt(termID);
 
-                        Course course = new Course(title, start, end, ID);
+                        Course course = new Course(title, start, end, courseTermID, courseID);
 
                         courseViewModel.insert(course);
 
@@ -361,7 +369,7 @@ public class AddEditTermActivity extends AppCompatActivity {
 
                         System.out.println("Set Course ID: " + courseID);
 
-                        Course course = new Course(title, start, end, termID);
+                        Course course = new Course(title, start, end, courseTermID, courseID);
                         course.setCourseID(courseID);
                         courseViewModel.update(course);
 
@@ -375,177 +383,105 @@ public class AddEditTermActivity extends AppCompatActivity {
             }
     );
 
-//    public void openDialog() {
-//        CourseDialog courseDialog = new CourseDialog();
-//        courseDialog.show(getSupportFragmentManager(), "Add Course Dialog");
-//    }
-
-
-
-    public ScheduledCourseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.course_item_add, parent, false);
-        return new AddEditTermActivity.ScheduledCourseHolder(itemView);
-    }
-
-
-    public void onBindViewHolder(@NonNull ScheduledCourseHolder holder, int position) {
-        ScheduledCourse currentCourse = sc.get(position);
-        int ID = currentCourse.getCourseID();
-        holder.courseIDTextView.setText(Integer.toString(ID));
-        holder.textViewTitle.setText(currentCourse.getCourseTitle());
-        holder.textViewStart.setText(currentCourse.getStartDate());
-        holder.textViewEnd.setText(currentCourse.getEndDate());
-
-    }
-
-    public int getItemCount() {
-        return sc.size();
+    public void openDialog() {
+        CourseDialog courseDialog = new CourseDialog();
+        courseDialog.show(getSupportFragmentManager(), "Add Course Dialog");
     }
 
 
 
-    public ScheduledCourse getScheduledCourseAt(int position) {
-        return sc.get(position);
-    }
-
-    class ScheduledCourseHolder extends RecyclerView.ViewHolder {
-
-        private TextView courseIDTextView;
-        private TextView textViewTitle;
-        private TextView textViewStart;
-        private TextView textViewEnd;
-        private TextView editTermID;
-        private Button addBtn;
-
-        public ScheduledCourseHolder(@NonNull View itemView) {
-            super(itemView);
-            courseIDTextView = itemView.findViewById(R.id.text_view_add_courseID);
-            textViewTitle = itemView.findViewById(R.id.text_view_add_course_title);
-            textViewStart = itemView.findViewById(R.id.edit_add_course_start);
-            textViewEnd = itemView.findViewById(R.id.edit_add_course_end);
-            editTermID = itemView.findViewById(R.id.edit_termID);
-            addBtn = itemView.findViewById(R.id.add_course_btn);
-
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = getAdapterPosition();
-                    if (listener != null && position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(sc.get(position));
-                    }
-                }
-            });
-
-            itemView.findViewById(R.id.add_course_btn).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    System.out.println("Test");
-                    String title = textViewTitle.getText().toString();
-                    String start = textViewStart.getText().toString();
-                    String end = textViewEnd.getText().toString();
-
-                    Course c = new Course(title, start, end, courseTermID);
-                    courseViewModel.insert(c);
-//                    saveScheduledCourse();
-
-                }
-            });
-        }
-    }
 
 
 
-    public void createNewCourseDialog(){
-        dialogBuilder = new AlertDialog.Builder(this);
-        final View coursePopupView = getLayoutInflater().inflate(R.layout.course_popup, null);
-        search = (TextInputEditText) coursePopupView.findViewById(R.id.text_input);
-        scheduledCourseList = (RecyclerView) coursePopupView.findViewById(R.id.popupCourseRecyclerView);
-
-        //****
-
-
-        // Recycler View
-
-        scheduledCourseList.setLayoutManager(new LinearLayoutManager(this));
-        scheduledCourseList.setHasFixedSize(true);
-
-        // Adapter
-        final ScheduledCourseAdapter adapter = new ScheduledCourseAdapter();
-        scheduledCourseList.setAdapter(adapter);
-
-
-        // View Model
-        scViewModel = new ViewModelProvider(this).get(ScheduledCourseViewModel.class);
-
-        scViewModel.getAllScheduledCourses().observe(this, new Observer<List<ScheduledCourse>>() {
-            @Override
-            public void onChanged(List<ScheduledCourse> sc) {
-                adapter.setScheduledCourse(sc);
-            }
-        });
-
-        // Touch helper
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
-                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-//                courseViewModel.delete(adapter.getCourseAt(viewHolder.getAdapterPosition()));
-//                Toast.makeText(CourseDialog.class, "Course Deleted", Toast.LENGTH_SHORT).show();
-            }
-        }).attachToRecyclerView(scheduledCourseList);
-
-
-
-
-        //******
-
-
-
-
-
-        // OnClick Fill Form
-//        adapter.setOnItemClickListener(new ScheduledCourseAdapter().OnItemClickListener() {
+//    public void createNewCourseDialog(){
+//        dialogBuilder = new AlertDialog.Builder(this);
+//        final View coursePopupView = getLayoutInflater().inflate(R.layout.course_popup, null);
+//        search = (TextInputEditText) coursePopupView.findViewById(R.id.text_input);
+//        scheduledCourseList = (RecyclerView) coursePopupView.findViewById(R.id.popupCourseRecyclerView);
+//
+//        //****
+//
+//
+//        // Recycler View
+//
+//        scheduledCourseList.setLayoutManager(new LinearLayoutManager(this));
+//        scheduledCourseList.setHasFixedSize(true);
+//
+//        // Adapter
+//        final ScheduledCourseAdapter adapter = new ScheduledCourseAdapter();
+//        scheduledCourseList.setAdapter(adapter);
+//
+//
+//        // View Model
+//        scViewModel = new ViewModelProvider(this).get(ScheduledCourseViewModel.class);
+//
+//        scViewModel.getAllScheduledCourses().observe(this, new Observer<List<ScheduledCourse>>() {
 //            @Override
-//            public void onItemClick(ScheduledCourse sc) {
-//                Intent intent = new Intent(addEditTermActivity, AddEditCourseActivity.class);
-//                intent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID_DISPLAY, String.valueOf(course.getCourseID()));
-//                intent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID, course.getCourseID());
-//                intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, String.valueOf(course.getTermID()));
-//                intent.putExtra(AddEditCourseActivity.EXTRA_TITLE, course.getCourseTitle());
-//                intent.putExtra(AddEditCourseActivity.EXTRA_STATUS, course.getStatus());
-//                intent.putExtra(AddEditCourseActivity.EXTRA_STATUS_POS, AddEditCourseActivity.statusPosition);
-//                intent.putExtra(AddEditCourseActivity.EXTRA_START, course.getStartDate());
-//                intent.putExtra(AddEditCourseActivity.EXTRA_END, course.getEndDate());
-//                activityUpdateResultLauncher.launch(intent);
-//
-//
+//            public void onChanged(List<ScheduledCourse> sc) {
+//                adapter.setScheduledCourse(sc);
 //            }
 //        });
-
-
-        dialogBuilder.setView(coursePopupView)
-                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        })
-                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-        dialog = dialogBuilder.create();
-        dialog.show();
-    }
+//
+//        // Touch helper
+//        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+//                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+//            @Override
+//            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+//                return false;
+//            }
+//
+//            @Override
+//            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+////                courseViewModel.delete(adapter.getCourseAt(viewHolder.getAdapterPosition()));
+////                Toast.makeText(CourseDialog.class, "Course Deleted", Toast.LENGTH_SHORT).show();
+//            }
+//        }).attachToRecyclerView(scheduledCourseList);
+//
+//
+//
+//
+//        //******
+//
+//
+//
+//
+//
+//        // OnClick Fill Form
+////        adapter.setOnItemClickListener(new ScheduledCourseAdapter().OnItemClickListener() {
+////            @Override
+////            public void onItemClick(ScheduledCourse sc) {
+////                Intent intent = new Intent(addEditTermActivity, AddEditCourseActivity.class);
+////                intent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID_DISPLAY, String.valueOf(course.getCourseID()));
+////                intent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID, course.getCourseID());
+////                intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, String.valueOf(course.getTermID()));
+////                intent.putExtra(AddEditCourseActivity.EXTRA_TITLE, course.getCourseTitle());
+////                intent.putExtra(AddEditCourseActivity.EXTRA_STATUS, course.getStatus());
+////                intent.putExtra(AddEditCourseActivity.EXTRA_STATUS_POS, AddEditCourseActivity.statusPosition);
+////                intent.putExtra(AddEditCourseActivity.EXTRA_START, course.getStartDate());
+////                intent.putExtra(AddEditCourseActivity.EXTRA_END, course.getEndDate());
+////                activityUpdateResultLauncher.launch(intent);
+////
+////
+////            }
+////        });
+//
+//
+//        dialogBuilder.setView(coursePopupView)
+//                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//
+//            }
+//        })
+//                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                    }
+//                });
+//        dialog = dialogBuilder.create();
+//        dialog.show();
+//    }
 
     // Save Course
     public void saveScheduledCourse() {
@@ -594,4 +530,15 @@ public class AddEditTermActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public void onCourseClick(int position) {
+        ScheduledCourse scCourse = sc.get(position);
+        String title = scCourse.getCourseTitle();
+        String start = scCourse.getStartDate();
+        String end = scCourse.getEndDate();
+        int courseID = scCourse.getCourseID();
+        Course course = new Course(title, start, end, ScheduledCourseAdapter.courseTermID, courseID);
+
+    }
 }

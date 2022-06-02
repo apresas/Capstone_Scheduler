@@ -41,7 +41,7 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
     public static final String EXTRA_END =
             "com.example.coursescheduler.EXTRA_END";
 
-    private List<ScheduledCourse> sc = new ArrayList();
+    public List<ScheduledCourse> sc = new ArrayList();
     private List<Term> terms = new ArrayList();
     private OnItemClickListener listener;
     CourseViewModel courseViewModel;
@@ -49,6 +49,12 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
     CourseDialog courseDialog;
     static String termID;
     static int courseTermID;
+    private OnCourseListener onCourseListener;
+
+    public ScheduledCourseAdapter(List<ScheduledCourse> sc, OnCourseListener onCourseListener){
+        this.sc = sc;
+        this.onCourseListener = onCourseListener;
+    }
 
 
     @NonNull
@@ -56,7 +62,7 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
     public ScheduledCourseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.course_item_add, parent, false);
-        return new ScheduledCourseHolder(itemView);
+        return new ScheduledCourseHolder(itemView, onCourseListener);
     }
 
     @Override
@@ -84,7 +90,7 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
         return sc.get(position);
     }
 
-    class ScheduledCourseHolder extends RecyclerView.ViewHolder {
+    class ScheduledCourseHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView courseIDTextView;
         private TextView textViewTitle;
@@ -92,8 +98,9 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
         private TextView textViewEnd;
         private TextView editTermID;
         private Button addBtn;
+        OnCourseListener onCourseListener;
 
-        public ScheduledCourseHolder(@NonNull View itemView) {
+        public ScheduledCourseHolder(@NonNull View itemView, OnCourseListener onCourseListener) {
             super(itemView);
             courseIDTextView = itemView.findViewById(R.id.text_view_add_courseID);
             textViewTitle = itemView.findViewById(R.id.text_view_add_course_title);
@@ -101,6 +108,7 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
             textViewEnd = itemView.findViewById(R.id.edit_add_course_end);
             editTermID = itemView.findViewById(R.id.edit_termID);
             addBtn = itemView.findViewById(R.id.add_course_btn);
+            this.onCourseListener = onCourseListener;
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +124,28 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
             itemView.findViewById(R.id.add_course_btn).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    int position = getAdapterPosition();
+//                    courseDialog.onCourseClick(position);
+                    ScheduledCourse scheduledCourse = sc.get(position);
+                    System.out.println("List size: " + sc.size());
+                    String title = scheduledCourse.getCourseTitle();
+                    String start = scheduledCourse.getStartDate();
+                    String end = scheduledCourse.getEndDate();
+                    int courseID = scheduledCourse.getCourseID();
+                    int termCourseID = courseTermID;
+
+                    Course c = new Course(title, start, end, termCourseID, courseID);
+                    System.out.println("Title: " + c.getCourseTitle());
+                    System.out.println("Start: " + c.getStartDate());
+                    System.out.println("End: " + c.getEndDate());
+                    System.out.println("Term: " + c.getTermID());
+                    System.out.println("Course: " + c.getCourseID());
+                    System.out.println("Position: " + position);
+
+
+
+//                    onCourseListener.onCourseClick(position);
+
 //                    String title = textViewTitle.getText().toString();
 //                    String start = textViewStart.getText().toString();
 //                    String end = textViewEnd.getText().toString();
@@ -134,6 +164,8 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
 //                    courseViewModel.insert(course);
 
                 }
+
+
 
                 // Save Course
 //                private void saveCourse() {
@@ -170,9 +202,17 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
 //
 //                }
             });
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            onCourseListener.onCourseClick(getAdapterPosition());
         }
     }
-
+    public interface OnCourseListener {
+        void onCourseClick(int position);
+    }
 
 
 
