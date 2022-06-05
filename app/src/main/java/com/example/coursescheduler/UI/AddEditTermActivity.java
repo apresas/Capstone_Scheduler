@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -29,7 +31,9 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -55,7 +59,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AddEditTermActivity extends AppCompatActivity implements ScheduledCourseAdapter.OnCourseListener {
+public class AddEditTermActivity extends AppCompatActivity implements FragmentCourse.OnFragmentInteractionListener {
 
     public static final String EXTRA_COURSE_ID =
             "com.example.coursescheduler.EXTRA_COURSE_ID";
@@ -71,6 +75,8 @@ public class AddEditTermActivity extends AppCompatActivity implements ScheduledC
             "com.example.coursescheduler.EXTRA_START";
     public static final String EXTRA_END =
             "com.example.coursescheduler.EXTRA_END";
+    public static final String SELECTED_COURSE =
+            "com.example.coursescheduler.SELECTED_COURSE";
 
     private TextView editTermID;
     private TextInputEditText termTitle;
@@ -100,9 +106,12 @@ public class AddEditTermActivity extends AppCompatActivity implements ScheduledC
     private Button addBtn;
     private List<ScheduledCourse> sc = new ArrayList();
     private ScheduledCourseAdapter.OnItemClickListener listener;
-    CourseDialog courseDialog;
-//    Dialog courseDialog;
+    static ScheduledCourse scCourse;
+    FrameLayout fragmentContainer;
 
+//    CourseDialog courseDialog;
+//    Dialog courseDialog;
+    private static final String TAG = "AddEditTermActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,10 +133,18 @@ public class AddEditTermActivity extends AppCompatActivity implements ScheduledC
         courseEnd = findViewById(R.id.edit_add_course_end);
         courseID = findViewById(R.id.text_view_add_courseID);
 
+        fragmentContainer = (FrameLayout) findViewById(R.id.Fragment_frame);
 
+
+        if (getIntent().hasExtra(SELECTED_COURSE)){
+            ScheduledCourse scCourse = getIntent().getParcelableExtra("SELECTED_COURSE");
+            Log.d(TAG, "onCreate: " + scCourse. toString());
+        }
 
         // Floating Button
         FloatingActionButton buttonAddTerm = findViewById(R.id.button_open_course);
+
+
 
         // Go to AddEditCourse
         buttonAddTerm.setOnClickListener(new View.OnClickListener() {
@@ -139,8 +156,17 @@ public class AddEditTermActivity extends AppCompatActivity implements ScheduledC
 //                createNewCourseDialog();
                 String termID = editTermID.getText().toString();
                 ScheduledCourseAdapter.courseTermID = Integer.parseInt(termID);
+                openFragment();
+//                CourseDialog.courseTermID = Integer.parseInt(termID);
 //                courseTermID = Integer.parseInt(termID);
-                openDialog();
+//                CourseDialog courseDialog = new CourseDialog();
+//                courseDialog.show(getSupportFragmentManager(), "Add Course Dialog");
+
+
+
+
+
+//                openDialog();
 
             }
         });
@@ -383,10 +409,10 @@ public class AddEditTermActivity extends AppCompatActivity implements ScheduledC
             }
     );
 
-    public void openDialog() {
-        CourseDialog courseDialog = new CourseDialog();
-        courseDialog.show(getSupportFragmentManager(), "Add Course Dialog");
-    }
+//    public void openDialog() {
+//        CourseDialog courseDialog = new CourseDialog();
+//        courseDialog.show(getSupportFragmentManager(), "Add Course Dialog");
+//    }
 
 
 
@@ -531,14 +557,92 @@ public class AddEditTermActivity extends AppCompatActivity implements ScheduledC
     }
 
 
-    @Override
-    public void onCourseClick(int position) {
-        ScheduledCourse scCourse = sc.get(position);
-        String title = scCourse.getCourseTitle();
-        String start = scCourse.getStartDate();
-        String end = scCourse.getEndDate();
-        int courseID = scCourse.getCourseID();
-        Course course = new Course(title, start, end, ScheduledCourseAdapter.courseTermID, courseID);
+//    @Override
+//    public void onCourseClick(int position) {
+//        Intent intent = new Intent();
+//        intent.putExtra("SELECTED_COURSE", sc.get(position));
+//        startActivity(intent);
+//
+////        ScheduledCourse scCourse = sc.get(position);
+////        String title = scCourse.getCourseTitle();
+////        String start = scCourse.getStartDate();
+////        String end = scCourse.getEndDate();
+////        int courseID = scCourse.getCourseID();
+////        Course course = new Course(title, start, end, ScheduledCourseAdapter.courseTermID, courseID);
+//
+//    }
+
+    public void sendCourse(ScheduledCourse sc) {
+        Intent intent = new Intent();
+        intent.putExtra(SELECTED_COURSE, sc);
+        activityResultLauncher.launch(intent);
+
+        Intent scIntent = new Intent();
+        intent.getParcelableExtra(SELECTED_COURSE);
+        ScheduledCourse scheduledCourse = intent.getParcelableExtra(SELECTED_COURSE);
+        String title = scheduledCourse.getCourseTitle();
+        String start = scheduledCourse.getStartDate();
+        String end = scheduledCourse.getEndDate();
+        int courseID = scheduledCourse.getCourseID();
+
+        addCourse(title, start, end, courseID, courseTermID);
+        activityResultLauncher.launch(scIntent);
+
 
     }
+
+
+    public void addCourse(String title, String start, String end, int courseID, int termID) {
+        Intent intent = new Intent();
+//        ScheduledCourse sc = intent.getParcelableExtra(SELECTED_COURSE);
+//        String title = sc.getCourseTitle();
+//        String start = sc.getStartDate();
+//        String end = sc.getEndDate();
+//        int courseID = sc.getCourseID();
+
+        intent.putExtra(EXTRA_TITLE, title);
+        intent.putExtra(EXTRA_START, start);
+        intent.putExtra(EXTRA_END, end);
+        intent.putExtra(EXTRA_COURSE_ID, courseID);
+        intent.putExtra(EXTRA_TERM_ID, termID);
+
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    public void openFragment() {
+        FragmentCourse fragment = FragmentCourse.newInstance();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+        transaction.addToBackStack(null);
+        transaction.add(R.id.Fragment_frame, fragment, "Blank_Fragment").commit();
+
+    }
+
+    @Override
+    public void onFragmentInteraction(String title, String start, String end, int courseID, int termID) {
+        addCourse(title,start,end,courseID,termID);
+        Intent i = new Intent();
+        i.putExtra(EXTRA_TITLE, title);
+        i.putExtra(EXTRA_START, start);
+        i.putExtra(EXTRA_END, end);
+        i.putExtra(EXTRA_TERM_ID, termID);
+        i.putExtra(EXTRA_COURSE_ID, courseID);
+        setResult(RESULT_OK);
+        finish();
+        onBackPressed();
+    }
+
+    public void goToPrevious() {
+        onBackPressed();
+    }
+
+    // Go to Course Details
+    public void toCourseDetails() {
+        Intent intent = new Intent(AddEditTermActivity.this, AddEditCourseActivity.class);
+        startActivity(intent);
+//        activityResultLauncher.launch(intent);
+    }
+
 }

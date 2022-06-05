@@ -1,10 +1,13 @@
 package com.example.coursescheduler.Entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "all_courses")
-public class ScheduledCourse {
+public class ScheduledCourse implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     private int courseID;
     private String courseTitle;
@@ -17,6 +20,25 @@ public class ScheduledCourse {
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
+    protected ScheduledCourse(Parcel in) {
+        courseID = in.readInt();
+        courseTitle = in.readString();
+        startDate = in.readString();
+        endDate = in.readString();
+    }
+
+    public static final Creator<ScheduledCourse> CREATOR = new Creator<ScheduledCourse>() {
+        @Override
+        public ScheduledCourse createFromParcel(Parcel in) {
+            return new ScheduledCourse(in);
+        }
+
+        @Override
+        public ScheduledCourse[] newArray(int size) {
+            return new ScheduledCourse[size];
+        }
+    };
 
     // Getters
     public int getCourseID() {
@@ -55,4 +77,16 @@ public class ScheduledCourse {
         this.endDate = endDate;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(courseID);
+        parcel.writeString(courseTitle);
+        parcel.writeString(startDate);
+        parcel.writeString(endDate);
+    }
 }

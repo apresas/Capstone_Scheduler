@@ -34,6 +34,7 @@ public class ScheduledCourseViewModel extends AndroidViewModel {
         repository.updateScheduledCourse(sc);
     }
 
+
 //    public void delete(ScheduledCourse sc) {
 //        repository.deleteScheduleCourse(sc);
 //    }

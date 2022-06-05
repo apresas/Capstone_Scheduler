@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -37,6 +38,7 @@ import com.example.coursescheduler.Entity.Assessment;
 import com.example.coursescheduler.Entity.Course;
 import com.example.coursescheduler.Entity.Instructor;
 import com.example.coursescheduler.Entity.Note;
+import com.example.coursescheduler.Entity.ScheduledCourse;
 import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -70,6 +72,8 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
             "com.example.coursescheduler.EXTRA_START";
     public static final String EXTRA_END =
             "com.example.coursescheduler.EXTRA_END";
+    public static final String SELECTED_COURSE =
+            "com.example.coursescheduler.EXTRA_COURSE_ID_DISPLAY";
 
 
     private TextView editTermID;
@@ -95,7 +99,7 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
     static int noteCourseID;
     static int instructorCourseID;
 
-
+    private static final String TAG = "CourseActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +114,10 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
         dateFormat = "MM/dd/yy";
         sdf = new SimpleDateFormat(dateFormat, Locale.US);
 
+//        if (getIntent().hasExtra(SELECTED_COURSE)){
+//        ScheduledCourse scCourse = getIntent().getParcelableExtra("SELECTED_COURSE");
+//            Log.d(TAG, "onCreate: " + scCourse. toString());
+//    }
 
         textViewTitle = findViewById(R.id.text_view_note_title);
         textViewNote = findViewById(R.id.edit_note_body);

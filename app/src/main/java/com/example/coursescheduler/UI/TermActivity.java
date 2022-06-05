@@ -50,6 +50,7 @@ public class TermActivity extends AppCompatActivity {
 
         ScheduleRepo repo=new ScheduleRepo(getApplication());
 
+        // Button
         FloatingActionButton buttonAddTerm = findViewById(R.id.button_add_term);
         buttonAddTerm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +61,7 @@ public class TermActivity extends AppCompatActivity {
             }
         });
 
-
+        // Recycler View
         RecyclerView recyclerView = findViewById(R.id.termRecycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
