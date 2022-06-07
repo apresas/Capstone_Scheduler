@@ -5,4 +5,10 @@
         android:orderInCategory="100"
         android:id="@+id/notify"
         />
+    <item
+        android:id="@+id/save_course"
+        android:icon="@drawable/ic_save"
+        android:title="Save"
+        app:showAsAction="ifRoom"
+        />
 </menu>

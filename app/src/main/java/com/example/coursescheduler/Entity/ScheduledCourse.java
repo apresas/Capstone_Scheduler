@@ -8,17 +8,18 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "all_courses")
 public class ScheduledCourse implements Parcelable {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     private int courseID;
     private String courseTitle;
     private String startDate;
     private String endDate;
 
     // Constructor
-    public ScheduledCourse(String courseTitle, String startDate, String endDate) {
+    public ScheduledCourse(String courseTitle, String startDate, String endDate, int courseID) {
         this.courseTitle = courseTitle;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.courseID = courseID;
     }
 
     protected ScheduledCourse(Parcel in) {
@@ -26,6 +27,7 @@ public class ScheduledCourse implements Parcelable {
         courseTitle = in.readString();
         startDate = in.readString();
         endDate = in.readString();
+        courseID = in.readInt();
     }
 
     public static final Creator<ScheduledCourse> CREATOR = new Creator<ScheduledCourse>() {

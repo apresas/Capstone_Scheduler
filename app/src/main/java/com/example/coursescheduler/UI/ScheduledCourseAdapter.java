@@ -25,13 +25,19 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
     private List<Term> terms = new ArrayList();
     private OnItemClickListener listener;
     static int courseTermID;
-    private OnFragmentInteractionListener iListener;
+    AddCourseListActivity addCourseListActivity;
+//    private OnFragmentInteractionListener iListener;
 
 
 
-    public ScheduledCourseAdapter(List<ScheduledCourse> sc, OnFragmentInteractionListener fragmentInteractionListener){
+//    public ScheduledCourseAdapter(List<ScheduledCourse> sc, OnFragmentInteractionListener fragmentInteractionListener){
+//        this.sc = sc;
+//        this.iListener = fragmentInteractionListener;
+////        this.onCourseListener = onCourseListener;
+//    }
+
+    public ScheduledCourseAdapter(List<ScheduledCourse> sc){
         this.sc = sc;
-        this.iListener = fragmentInteractionListener;
 //        this.onCourseListener = onCourseListener;
     }
 
@@ -46,7 +52,7 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
     public ScheduledCourseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.course_item_add, parent, false);
-        return new ScheduledCourseHolder(itemView, iListener);
+        return new ScheduledCourseHolder(itemView);
     }
 
     @Override
@@ -83,12 +89,12 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
         private TextView editTermID;
         private Button addBtn;
         View rootview;
-        OnFragmentInteractionListener iListener;
+
 //        OnCourseListener onCourseListener;
 
-        public ScheduledCourseHolder(@NonNull View itemView, OnFragmentInteractionListener iListener) {
+        public ScheduledCourseHolder(@NonNull View itemView) {
             super(itemView);
-            this.iListener = iListener;
+
             courseIDTextView = itemView.findViewById(R.id.text_view_add_courseID);
             textViewTitle = itemView.findViewById(R.id.text_view_add_course_title);
             textViewStart = itemView.findViewById(R.id.edit_add_course_start);
@@ -98,8 +104,8 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
             rootview = itemView;
 
 
-            Intent intent = new Intent(rootview.getContext(), AddEditTermActivity.class);
-            rootview.getContext().startActivity(intent);
+//            Intent intent = new Intent(rootview.getContext(), AddEditTermActivity.class);
+//            rootview.getContext().startActivity(intent);
 //            this.onCourseListener = onCourseListener;
 
 
@@ -107,38 +113,39 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-                    if (listener != null && position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(sc.get(position));
-                    }
-                }
-            });
-
-            itemView.findViewById(R.id.add_course_btn).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = getAdapterPosition();
-//                    System.out.println("Text Click at Position: " + position);
-                    ScheduledCourse scheduledCourse = sc.get(position);
-                    String title = scheduledCourse.getCourseTitle();
-                    String start = scheduledCourse.getStartDate();
-                    String end = scheduledCourse.getEndDate();
-                    int courseID = scheduledCourse.getCourseID();
-                    int termCourseID = courseTermID;
-                    Course c = new Course(title, start, end, termCourseID, courseID);
-//                    Intent i = new Intent(rootview.getContext(), AddEditTermActivity.class);
-//                    i.putExtra(AddEditTermActivity.EXTRA_TITLE, title);
-//                    i.putExtra(AddEditTermActivity.EXTRA_START, start);
-//                    i.putExtra(AddEditTermActivity.EXTRA_END, end);
-//                    i.putExtra(AddEditTermActivity.EXTRA_TERM_ID, courseTermID);
-//                    i.putExtra(AddEditTermActivity.EXTRA_COURSE_ID, courseID);
-//                    rootview.getContext().startActivity(i);
-
-//                    iListener.onFragmentInteraction(title, start, end, courseID, courseTermID);
-//                    iListener.goToCourseDetails(c);
-                    System.out.println("DONE");
+//                    if (listener != null && position != RecyclerView.NO_POSITION) {
+//                        listener.onItemClick(sc.get(position));
+//                    }
 
                 }
             });
+
+//            itemView.findViewById(R.id.add_course_btn).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    int position = getAdapterPosition();
+////                    System.out.println("Text Click at Position: " + position);
+//                    ScheduledCourse scheduledCourse = sc.get(position);
+//                    String title = scheduledCourse.getCourseTitle();
+//                    String start = scheduledCourse.getStartDate();
+//                    String end = scheduledCourse.getEndDate();
+//                    int courseID = scheduledCourse.getCourseID();
+//                    int termCourseID = courseTermID;
+//                    Course c = new Course(title, start, end, termCourseID, courseID);
+////                    Intent i = new Intent(rootview.getContext(), AddEditTermActivity.class);
+////                    i.putExtra(AddEditTermActivity.EXTRA_TITLE, title);
+////                    i.putExtra(AddEditTermActivity.EXTRA_START, start);
+////                    i.putExtra(AddEditTermActivity.EXTRA_END, end);
+////                    i.putExtra(AddEditTermActivity.EXTRA_TERM_ID, courseTermID);
+////                    i.putExtra(AddEditTermActivity.EXTRA_COURSE_ID, courseID);
+////                    rootview.getContext().startActivity(i);
+//
+////                    iListener.onFragmentInteraction(title, start, end, courseID, courseTermID);
+////                    iListener.goToCourseDetails(c);
+//                    System.out.println("DONE");
+//
+//                }
+//            });
 
             itemView.setOnClickListener(this);
         }
@@ -146,6 +153,32 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
         @Override
         public void onClick(View view) {
             System.out.println("VIEW CLICK TEST");
+            int position = getAdapterPosition();
+            ScheduledCourse scheduledCourse = sc.get(position);
+//            int courseID = scheduledCourse.getCourseID();
+            String title = scheduledCourse.getCourseTitle();
+            String start = scheduledCourse.getStartDate();
+            String end = scheduledCourse.getEndDate();
+            int courseID = scheduledCourse.getCourseID();
+            String cID = String.valueOf(courseID);
+            String tID = String.valueOf(courseTermID);
+            System.out.println("SELECT COURSE TITLE: " + title);
+            Intent i = new Intent(rootview.getContext(), AddEditCourseActivity.class);
+//            i.putExtra(AddEditCourseActivity.SELECTED_COURSE, scheduledCourse);
+            i.putExtra(AddEditCourseActivity.EXTRA_TITLE, title);
+            i.putExtra(AddEditCourseActivity.EXTRA_START, start);
+            i.putExtra(AddEditCourseActivity.EXTRA_END, end);
+            i.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID, courseID);
+            i.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID_DISPLAY, cID);
+            i.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, tID);
+            rootview.getContext().startActivity(i);
+
+//            String start = scheduledCourse.getStartDate();
+//            String end = scheduledCourse.getEndDate();
+//            ScheduledCourse sc = new ScheduledCourse(title, start, end, courseID);
+//            iListener.goToCourseDetails(sc);
+
+//            iListener.goToCourseDetails(scheduledCourse);
 //            scListener.onFragmentInteraction();
 //            onCourseListener.onCourseClick(getAdapterPosition());
         }
@@ -155,8 +188,8 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
     public interface OnItemClickListener {
         void onItemClick(ScheduledCourse sc);
     }
-
-
+//
+//
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
@@ -169,9 +202,9 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
 //    }
 
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(String title, String start, String end, int courseID, int termID);
-//        void goToCourseDetails(Course course);
-    }
+//    public interface OnFragmentInteractionListener {
+////        void onFragmentInteraction(String title, String start, String end, int courseID, int termID);
+//        void goToCourseDetails(ScheduledCourse course);
+//    }
 
 }

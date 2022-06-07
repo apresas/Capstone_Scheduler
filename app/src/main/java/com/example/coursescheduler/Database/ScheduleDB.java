@@ -22,7 +22,7 @@ import com.example.coursescheduler.Entity.Note;
 import com.example.coursescheduler.Entity.ScheduledCourse;
 import com.example.coursescheduler.Entity.Term;
 
-@Database(entities = {Term.class, Course.class, Assessment.class, Note.class, Instructor.class, ScheduledCourse.class}, version = 28)
+@Database(entities = {Term.class, Course.class, Assessment.class, Note.class, Instructor.class, ScheduledCourse.class}, version = 30)
 public abstract class ScheduleDB extends RoomDatabase {
     private static ScheduleDB instance;
     public abstract TermDAO termDAO();

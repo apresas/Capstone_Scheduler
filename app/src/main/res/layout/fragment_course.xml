@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.FragmentCourse"
+    tools:context=".UI.AddCourseListActivity"
     android:background="@color/white"
     >
 
@@ -70,7 +70,7 @@
                     app:startIconTint="@color/ESC_Main">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/text_input"
+                        android:id="@+id/search_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Search..."
@@ -128,8 +128,8 @@
                 android:id="@+id/button_add_confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="finishActivity"
                 android:layout_centerInParent="true"
-
                 android:src="@drawable/ic_check"
                 app:backgroundTint="@color/ESC_Main"
                 app:tint="@color/white" />

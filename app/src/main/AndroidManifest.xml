@@ -41,6 +41,11 @@
             android:parentActivityName=".UI.AddEditCourseActivity"
             android:launchMode="singleTop"
             android:exported="false"/>
+        <activity
+            android:name=".UI.AddCourseListActivity"
+            android:parentActivityName=".UI.AddEditTermActivity"
+            android:launchMode="singleTop"
+            android:exported="false"/>
 
         <activity android:name=".UI.TermActivity"
             android:exported="false"/>

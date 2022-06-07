@@ -10,7 +10,7 @@
     android:id="@+id/main_container"
     >
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -52,24 +52,18 @@
                     />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/courseListTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Scheduled Courses:"
-                android:layout_marginBottom="10dp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/termLayout"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <RelativeLayout
                 android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/courseListTextView"
+                android:layout_below="@id/termLayout"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp"
-                android:paddingBottom="10dp">
+                android:paddingBottom="10dp"
+                android:layout_marginBottom="10dp"
+
+                >
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/title_field"
@@ -101,8 +95,7 @@
                     app:endIconMode="clear_text"
                     app:endIconTint="@color/ESC_Main"
                     app:startIconDrawable="@drawable/ic_calendar"
-                    app:startIconTint="@color/ESC_Main"
-                    >
+                    app:startIconTint="@color/ESC_Main">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/start_input"
@@ -134,42 +127,65 @@
         </RelativeLayout>
 
 
+        <TextView
+            android:id="@+id/courseListTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Course List: "
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:layout_marginBottom="10dp" />
 
         <RelativeLayout
             android:id="@+id/course_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
+            android:layout_height="250dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@drawable/et_layout"
+            android:layout_marginBottom="10dp"
 
             android:layout_below="@id/form_container"
             >
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/courseRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 tools:listitem="@layout/course_item">
-
             </androidx.recyclerview.widget.RecyclerView>
+        </ScrollView>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/button_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/assessment_list_title"
+            android:layout_alignParentBottom="true"
+
+            >
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/button_open_course"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="15dp"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:src="@drawable/ic_add"
                 app:backgroundTint="@color/ESC_Main"
-                app:tint="@color/white"
 
-                />
+                app:tint="@color/white" />
         </RelativeLayout>
-        <FrameLayout
-            android:id="@+id/Fragment_frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
 
-    </RelativeLayout>
+
+    </LinearLayout>
 </LinearLayout>

@@ -76,7 +76,7 @@ public class AddEditNoteActivity extends AppCompatActivity  {
         editNoteTitle = findViewById(R.id.edit_text_noteTitle);
         editNoteComment = findViewById(R.id.edit_text_noteComment);
 
-        noteCourseIDLocal = AddEditCourseActivity.noteCourseID;
+
 
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);

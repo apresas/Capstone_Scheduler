@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -59,7 +60,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AddEditTermActivity extends AppCompatActivity implements FragmentCourse.OnFragmentInteractionListener {
+public class AddEditTermActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static final String EXTRA_COURSE_ID =
             "com.example.coursescheduler.EXTRA_COURSE_ID";
@@ -133,7 +134,7 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
         courseEnd = findViewById(R.id.edit_add_course_end);
         courseID = findViewById(R.id.text_view_add_courseID);
 
-        fragmentContainer = (FrameLayout) findViewById(R.id.Fragment_frame);
+//        fragmentContainer = (FrameLayout) findViewById(R.id.Fragment_frame);
 
 
         if (getIntent().hasExtra(SELECTED_COURSE)){
@@ -156,7 +157,18 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
 //                createNewCourseDialog();
                 String termID = editTermID.getText().toString();
                 ScheduledCourseAdapter.courseTermID = Integer.parseInt(termID);
-                openFragment();
+                AddCourseListActivity.courseTermID = Integer.parseInt(termID);
+                AddEditCourseActivity.courseTermID = Integer.parseInt(termID);
+                int tID = Integer.parseInt(termID);
+                Intent intent = new Intent(AddEditTermActivity.this, AddCourseListActivity.class);
+                intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, termID);
+                activityResultLauncher.launch(intent);
+                System.out.println("Term Button Clicked");
+
+//                startActivity(intent);
+//                openFragment();
+
+
 //                CourseDialog.courseTermID = Integer.parseInt(termID);
 //                courseTermID = Integer.parseInt(termID);
 //                CourseDialog courseDialog = new CourseDialog();
@@ -217,10 +229,10 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
                 intent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID, course.getCourseID());
                 intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, String.valueOf(course.getTermID()));
                 intent.putExtra(AddEditCourseActivity.EXTRA_TITLE, course.getCourseTitle());
-                intent.putExtra(AddEditCourseActivity.EXTRA_STATUS_POS, AddEditCourseActivity.statusPosition);
                 intent.putExtra(AddEditCourseActivity.EXTRA_START, course.getStartDate());
                 intent.putExtra(AddEditCourseActivity.EXTRA_END, course.getEndDate());
                 activityUpdateResultLauncher.launch(intent);
+
 
 
             }
@@ -361,6 +373,8 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
             }
     );
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -408,6 +422,16 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
                 }
             }
     );
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
 
 //    public void openDialog() {
 //        CourseDialog courseDialog = new CourseDialog();
@@ -510,7 +534,7 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
 //    }
 
     // Save Course
-    public void saveScheduledCourse() {
+//    public void saveScheduledCourse() {
 //        String title = courseTitle.getText().toString();
 //        System.out.println(title);
 //        String start = courseStart.getText().toString();
@@ -554,7 +578,7 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
 //        System.out.println("courseID: " + courseID + "ID: " + id);
 
 
-    }
+//    }
 
 
 //    @Override
@@ -572,77 +596,82 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
 //
 //    }
 
-    public void sendCourse(ScheduledCourse sc) {
-        Intent intent = new Intent();
-        intent.putExtra(SELECTED_COURSE, sc);
-        activityResultLauncher.launch(intent);
-
-        Intent scIntent = new Intent();
-        intent.getParcelableExtra(SELECTED_COURSE);
-        ScheduledCourse scheduledCourse = intent.getParcelableExtra(SELECTED_COURSE);
-        String title = scheduledCourse.getCourseTitle();
-        String start = scheduledCourse.getStartDate();
-        String end = scheduledCourse.getEndDate();
-        int courseID = scheduledCourse.getCourseID();
-
-        addCourse(title, start, end, courseID, courseTermID);
-        activityResultLauncher.launch(scIntent);
-
-
-    }
-
-
-    public void addCourse(String title, String start, String end, int courseID, int termID) {
-        Intent intent = new Intent();
-//        ScheduledCourse sc = intent.getParcelableExtra(SELECTED_COURSE);
-//        String title = sc.getCourseTitle();
-//        String start = sc.getStartDate();
-//        String end = sc.getEndDate();
-//        int courseID = sc.getCourseID();
-
-        intent.putExtra(EXTRA_TITLE, title);
-        intent.putExtra(EXTRA_START, start);
-        intent.putExtra(EXTRA_END, end);
-        intent.putExtra(EXTRA_COURSE_ID, courseID);
-        intent.putExtra(EXTRA_TERM_ID, termID);
-
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
-    public void openFragment() {
-        FragmentCourse fragment = FragmentCourse.newInstance();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
-        transaction.addToBackStack(null);
-        transaction.add(R.id.Fragment_frame, fragment, "Blank_Fragment").commit();
-
-    }
-
-    @Override
-    public void onFragmentInteraction(String title, String start, String end, int courseID, int termID) {
-        addCourse(title,start,end,courseID,termID);
-        Intent i = new Intent();
-        i.putExtra(EXTRA_TITLE, title);
-        i.putExtra(EXTRA_START, start);
-        i.putExtra(EXTRA_END, end);
-        i.putExtra(EXTRA_TERM_ID, termID);
-        i.putExtra(EXTRA_COURSE_ID, courseID);
-        setResult(RESULT_OK);
-        finish();
-        onBackPressed();
-    }
-
-    public void goToPrevious() {
-        onBackPressed();
-    }
-
-    // Go to Course Details
-    public void toCourseDetails() {
-        Intent intent = new Intent(AddEditTermActivity.this, AddEditCourseActivity.class);
-        startActivity(intent);
+//    public void sendCourse(ScheduledCourse sc) {
+//        Intent intent = new Intent();
+//        intent.putExtra(SELECTED_COURSE, sc);
 //        activityResultLauncher.launch(intent);
-    }
+//
+//        Intent scIntent = new Intent();
+//        intent.getParcelableExtra(SELECTED_COURSE);
+//        ScheduledCourse scheduledCourse = intent.getParcelableExtra(SELECTED_COURSE);
+//        String title = scheduledCourse.getCourseTitle();
+//        String start = scheduledCourse.getStartDate();
+//        String end = scheduledCourse.getEndDate();
+//        int courseID = scheduledCourse.getCourseID();
+//
+//        addCourse(title, start, end, courseID, courseTermID);
+//        activityResultLauncher.launch(scIntent);
+//
+//
+//    }
+//
+//
+//    public void addCourse(String title, String start, String end, int courseID, int termID) {
+//        Intent intent = new Intent();
+////        ScheduledCourse sc = intent.getParcelableExtra(SELECTED_COURSE);
+////        String title = sc.getCourseTitle();
+////        String start = sc.getStartDate();
+////        String end = sc.getEndDate();
+////        int courseID = sc.getCourseID();
+//
+//        intent.putExtra(EXTRA_TITLE, title);
+//        intent.putExtra(EXTRA_START, start);
+//        intent.putExtra(EXTRA_END, end);
+//        intent.putExtra(EXTRA_COURSE_ID, courseID);
+//        intent.putExtra(EXTRA_TERM_ID, termID);
+//
+//        setResult(RESULT_OK, intent);
+//        finish();
+//    }
 
+//    public void openFragment() {
+//        FragmentCourse fragment = FragmentCourse.newInstance();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+//        transaction.addToBackStack(null);
+//        transaction.add(R.id.Fragment_frame, fragment, "Blank_Fragment").commit();
+//
+//    }
+
+//    @Override
+//    public void onFragmentInteraction(String title, String start, String end, int courseID, int termID) {
+//        addCourse(title,start,end,courseID,termID);
+//        Intent i = new Intent();
+//        i.putExtra(EXTRA_TITLE, title);
+//        i.putExtra(EXTRA_START, start);
+//        i.putExtra(EXTRA_END, end);
+//        i.putExtra(EXTRA_TERM_ID, termID);
+//        i.putExtra(EXTRA_COURSE_ID, courseID);
+//        setResult(RESULT_OK);
+//        finish();
+//        onBackPressed();
+//    }
+
+//    public void goToPrevious() {
+//        onBackPressed();
+//    }
+
+
+//    @Override
+//    public void goToCourseDetails(ScheduledCourse course) {
+//        Intent intent = new Intent(this, AddEditCourseActivity.class);
+//        intent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID_DISPLAY, String.valueOf(course.getCourseID()));
+//        intent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID, course.getCourseID());
+//        intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, String.valueOf(courseTermID));
+//        intent.putExtra(AddEditCourseActivity.EXTRA_TITLE, course.getCourseTitle());
+//        intent.putExtra(AddEditCourseActivity.EXTRA_START, course.getStartDate());
+//        intent.putExtra(AddEditCourseActivity.EXTRA_END, course.getEndDate());
+//        activityUpdateResultLauncher.launch(intent);
+//    }
 }

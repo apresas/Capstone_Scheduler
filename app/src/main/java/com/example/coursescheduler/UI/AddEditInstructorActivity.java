@@ -49,7 +49,7 @@ public class AddEditInstructorActivity extends AppCompatActivity {
         editPhone = findViewById(R.id.editPhone);
         instructorCourseID = findViewById(R.id.instructorCourseID);
 
-        instructorCourseIDLocal = AddEditCourseActivity.instructorCourseID;
+
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
 
