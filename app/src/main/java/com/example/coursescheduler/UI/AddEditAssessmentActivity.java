@@ -30,6 +30,7 @@ import com.example.coursescheduler.DAO.CourseDAO;
 import com.example.coursescheduler.Entity.Assessment;
 import com.example.coursescheduler.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -66,6 +67,14 @@ public class AddEditAssessmentActivity extends AppCompatActivity implements Adap
     private TextView startDate;
     private TextView endDate;
     private Spinner typeSpinner;
+
+    TextView assessmentCourseIDField;
+    TextInputEditText assessmentIDField;
+    TextInputEditText assessmentTitleField;
+    TextInputEditText assessmentTypeField;
+    TextInputEditText assessmentStartField;
+    TextInputEditText assessmentEndField;
+
     DatePickerDialog.OnDateSetListener startDP;
     DatePickerDialog.OnDateSetListener endDP;
     final Calendar calendarStart = Calendar.getInstance();
@@ -79,55 +88,65 @@ public class AddEditAssessmentActivity extends AppCompatActivity implements Adap
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_assessment);
+        setContentView(R.layout.activity_add_assessment_details);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        editCourseID = findViewById(R.id.edit_ID);
-        editAssessmentID = findViewById(R.id.edit_assessmentID);
-        assessmentTitle = findViewById(R.id.edit_text_assessmentTitle);
-//        typeTitle = findViewById(R.id.edit_text_type);
-        startDate = findViewById(R.id.editStart);
-        endDate = findViewById(R.id.editEnd);
         dateFormat = "MM/dd/yy";
         sdf = new SimpleDateFormat(dateFormat, Locale.US);
 
-        typeSpinner = findViewById(R.id.type_spinner);
-        ArrayAdapter<CharSequence> sAdapter = ArrayAdapter.createFromResource(this, R.array.type, android.R.layout.simple_spinner_item);
-        sAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        typeSpinner.setAdapter(sAdapter);
-        typeSpinner.setOnItemSelectedListener(this);
+
+        assessmentCourseIDField = findViewById(R.id.assessment_courseID_input);
+        assessmentIDField = findViewById(R.id.assessmentID_input);
+        assessmentTitleField = findViewById(R.id.assessment_title_input);
+        assessmentTypeField = findViewById(R.id.assessment_type_input);
+        assessmentStartField = findViewById(R.id.assessment_start_input);
+        assessmentEndField = findViewById(R.id.assessment_end_input);
+//        setContentView(R.layout.activity_assessment_details);
+//        editCourseID = findViewById(R.id.edit_ID);
+//        editAssessmentID = findViewById(R.id.edit_assessmentID);
+//        assessmentTitle = findViewById(R.id.edit_text_assessmentTitle);
+////        typeTitle = findViewById(R.id.edit_text_type);
+//        startDate = findViewById(R.id.editStart);
+//        endDate = findViewById(R.id.editEnd);
 
 
-        // Start Date onClick
-        startDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Date date;
-                String info = startDate.getText().toString();
-                if (info.equals(""))info = "03/03/22";
-                try {
-                    calendarStart.setTime(sdf.parse(info));
-                }catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                new DatePickerDialog(AddEditAssessmentActivity.this, startDP, calendarStart.get(Calendar.YEAR),
-                        calendarStart.get(Calendar.MONTH), calendarStart.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
-        // End Date onClick
-        endDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String info = endDate.getText().toString();
-                if (info.equals(""))info = "03/04/22";
-                try {
-                    calendarStart.setTime(sdf.parse(info));
-                }catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                new DatePickerDialog(AddEditAssessmentActivity.this, endDP, calendarStart.get(Calendar.YEAR),
-                        calendarStart.get(Calendar.MONTH), calendarStart.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
+//        typeSpinner = findViewById(R.id.type_spinner);
+//        ArrayAdapter<CharSequence> sAdapter = ArrayAdapter.createFromResource(this, R.array.type, android.R.layout.simple_spinner_item);
+//        sAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        typeSpinner.setAdapter(sAdapter);
+//        typeSpinner.setOnItemSelectedListener(this);
+
+
+//        // Start Date onClick
+//        assessmentStartField.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Date date;
+//                String info = assessmentStartField.getText().toString();
+//                if (info.equals(""))info = "03/03/22";
+//                try {
+//                    calendarStart.setTime(sdf.parse(info));
+//                }catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//                new DatePickerDialog(AddEditAssessmentActivity.this, startDP, calendarStart.get(Calendar.YEAR),
+//                        calendarStart.get(Calendar.MONTH), calendarStart.get(Calendar.DAY_OF_MONTH)).show();
+//            }
+//        });
+//        // End Date onClick
+//        assessmentEndField.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String info = assessmentEndField.getText().toString();
+//                if (info.equals(""))info = "03/04/22";
+//                try {
+//                    calendarStart.setTime(sdf.parse(info));
+//                }catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//                new DatePickerDialog(AddEditAssessmentActivity.this, endDP, calendarStart.get(Calendar.YEAR),
+//                        calendarStart.get(Calendar.MONTH), calendarStart.get(Calendar.DAY_OF_MONTH)).show();
+//            }
+//        });
         // Start Date Picker
         startDP = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -155,25 +174,36 @@ public class AddEditAssessmentActivity extends AppCompatActivity implements Adap
         // Select Label
         if(intent.hasExtra(EXTRA_ASSESSMENT_ID)) {
             setTitle("Edit Assessment");
-            editCourseID.setText(intent.getStringExtra(EXTRA_COURSE_ID));
-            editAssessmentID.setText(intent.getStringExtra(EXTRA_ASSESSMENT_ID_DISPLAY));
-            assessmentTitle.setText(intent.getStringExtra(EXTRA_TITLE));
-            typeSpinner.setSelection(typePosition);
-//            typeTitle.setText(intent.getStringExtra(EXTRA_TYPE));
-            startDate.setText(intent.getStringExtra(EXTRA_START));
-            endDate.setText(intent.getStringExtra(EXTRA_END));
-        } else {
-            setTitle("Add Assessment");
-            editCourseID.setText(intent.getStringExtra(EXTRA_COURSE_ID));
+//            editCourseID.setText(intent.getStringExtra(EXTRA_COURSE_ID));
+//            editAssessmentID.setText(intent.getStringExtra(EXTRA_ASSESSMENT_ID_DISPLAY));
+//            assessmentTitle.setText(intent.getStringExtra(EXTRA_TITLE));
+//            typeSpinner.setSelection(typePosition);
+////            typeTitle.setText(intent.getStringExtra(EXTRA_TYPE));
+//            startDate.setText(intent.getStringExtra(EXTRA_START));
+//            endDate.setText(intent.getStringExtra(EXTRA_END));
+
+
+            assessmentCourseIDField.setText(intent.getStringExtra(EXTRA_COURSE_ID));
+//            assessmentIDField.setText(intent.getStringExtra(EXTRA_ASSESSMENT_ID_DISPLAY));
+            assessmentIDField.setText(intent.getStringExtra(EXTRA_ASSESSMENT_ID));
+            assessmentTitleField.setText(intent.getStringExtra(EXTRA_TITLE));
+            assessmentTypeField.setText(intent.getStringExtra(EXTRA_TYPE));
+            assessmentStartField.setText(intent.getStringExtra(EXTRA_START));
+            assessmentEndField.setText(intent.getStringExtra(EXTRA_END));
 
         }
+//        else {
+//            setTitle("Add Assessment");
+//            editCourseID.setText(intent.getStringExtra(EXTRA_COURSE_ID));
+//
+//        }
 
 
     }
 
-    private void updateLabelStart() {startDate.setText(sdf.format(calendarStart.getTime()));}
+    private void updateLabelStart() {assessmentStartField.setText(sdf.format(calendarStart.getTime()));}
     private void updateLabelEnd() {
-        endDate.setText(sdf.format(calendarStart.getTime()));
+        assessmentEndField.setText(sdf.format(calendarStart.getTime()));
     }
 
     private void saveAssessment() {

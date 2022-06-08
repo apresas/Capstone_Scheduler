@@ -67,10 +67,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    app:endIconMode="clear_text"
-                    app:endIconTint="@color/ESC_Main"
                     android:enabled="false"
-                    >
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/ESC_Main">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/courseID_input"
@@ -87,12 +86,11 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    app:endIconMode="clear_text"
-                    app:endIconTint="@color/ESC_Main"
                     android:layout_below="@id/courseID_field"
+                    android:layout_marginBottom="10dp"
                     android:enabled="false"
-                    >
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/ESC_Main">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/title_input"
@@ -112,12 +110,11 @@
                     android:layout_below="@id/title_field"
                     android:layout_marginBottom="10dp"
 
+                    android:enabled="false"
                     app:endIconMode="clear_text"
                     app:endIconTint="@color/ESC_Main"
                     app:startIconDrawable="@drawable/ic_calendar"
-                    app:startIconTint="@color/ESC_Main"
-                    android:enabled="false"
-                    >
+                    app:startIconTint="@color/ESC_Main">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/start_input"
@@ -133,12 +130,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/start_field"
+                    android:enabled="false"
                     app:endIconMode="clear_text"
                     app:endIconTint="@color/ESC_Main"
                     app:startIconDrawable="@drawable/ic_calendar"
-                    app:startIconTint="@color/ESC_Main"
-                    android:enabled="false"
-                    >
+                    app:startIconTint="@color/ESC_Main">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/end_input"
@@ -154,7 +150,7 @@
             android:id="@+id/assessmentListTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Assessment List:"
+            android:text="Scheduled Assessment(s):"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:layout_marginBottom="10dp"
             />

@@ -81,8 +81,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
             courseIDTextView = itemView.findViewById(R.id.text_view_courseID);
             textViewTitle = itemView.findViewById(R.id.text_view_course_title);
             textViewTermID = itemView.findViewById(R.id.edit_termID);
-//            textViewInstructor = itemView.findViewById(R.id.instuctorName);
-//            textViewStatus = itemView.findViewById(R.id.edit_status);
             textViewStart = itemView.findViewById(R.id.edit_course_start);
             textViewEnd = itemView.findViewById(R.id.edit_course_end);
             addBtn = itemView.findViewById(R.id.add_course_btn);

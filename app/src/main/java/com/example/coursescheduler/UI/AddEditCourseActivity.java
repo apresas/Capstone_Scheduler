@@ -122,22 +122,22 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
 
 
 
-        // Floating Button
-        FloatingActionButton buttonAddTerm = findViewById(R.id.button_add_assessment);
-
-        // Go to AddEditCourse
-        buttonAddTerm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-
-                Intent intent = new Intent(AddEditCourseActivity.this, AddEditAssessmentActivity.class);
-                String courseID = editCourseID.getText().toString();
-                intent.putExtra(AddEditAssessmentActivity.EXTRA_COURSE_ID, courseID);
-                saveCourse();
-
-
-            }
-        });
+//        // Floating Button
+//        FloatingActionButton buttonAddTerm = findViewById(R.id.button_add_assessment);
+//
+//        // Go to AddEditCourse
+//        buttonAddTerm.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v){
+//
+//                Intent intent = new Intent(AddEditCourseActivity.this, AddEditAssessmentActivity.class);
+//                String courseID = editCourseID.getText().toString();
+//                intent.putExtra(AddEditAssessmentActivity.EXTRA_COURSE_ID, courseID);
+//                saveCourse();
+//
+//
+//            }
+//        });
 
 
 
@@ -182,10 +182,14 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
                 Intent intent = new Intent(AddEditCourseActivity.this, AddEditAssessmentActivity.class);
                 intent.putExtra(AddEditAssessmentActivity.EXTRA_ASSESSMENT_ID_DISPLAY, String.valueOf(assessment.getAssessmentID()));
                 intent.putExtra(AddEditAssessmentActivity.EXTRA_ASSESSMENT_ID, assessment.getAssessmentID());
+//                String cID = editCourseID.getText().toString();
+//                int courseID = Integer.parseInt(cID);
+//                intent.putExtra(AddEditAssessmentActivity.EXTRA_COURSE_ID_DISPlAY, cID);
+//                intent.putExtra(AddEditAssessmentActivity.EXTRA_COURSE_ID, courseID);
                 intent.putExtra(AddEditAssessmentActivity.EXTRA_COURSE_ID, String.valueOf(assessment.getCourseID()));
                 intent.putExtra(AddEditAssessmentActivity.EXTRA_TITLE, assessment.getAssessmentTitle());
                 intent.putExtra(AddEditAssessmentActivity.EXTRA_TYPE, assessment.getAssessmentType());
-                intent.putExtra(AddEditAssessmentActivity.EXTRA_TYPE_POSITION, AddEditAssessmentActivity.typePosition);
+//                intent.putExtra(AddEditAssessmentActivity.EXTRA_TYPE_POSITION, AddEditAssessmentActivity.typePosition);
                 intent.putExtra(AddEditAssessmentActivity.EXTRA_START, assessment.getStartDate());
                 intent.putExtra(AddEditAssessmentActivity.EXTRA_END, assessment.getEndDate());
 
@@ -320,9 +324,11 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
                         String start = result.getData().getStringExtra(AddEditAssessmentActivity.EXTRA_START);
                         String end = result.getData().getStringExtra(AddEditAssessmentActivity.EXTRA_END);
                         String ID = result.getData().getStringExtra(AddEditAssessmentActivity.EXTRA_COURSE_ID);
+                        String aID = result.getData().getStringExtra(AddEditAssessmentActivity.EXTRA_ASSESSMENT_ID);
+                        int assessmentID = Integer.parseInt(aID);
                         int courseID = Integer.parseInt(ID);
 
-                        Assessment assessment = new Assessment(title, type, start, end, courseID);
+                        Assessment assessment = new Assessment(title, type, start, end, courseID, assessmentID);
 
                         assessmentViewModel.insert(assessment);
 
@@ -368,10 +374,12 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
                         String end = result.getData().getStringExtra(AddEditAssessmentActivity.EXTRA_END);
                         String ID = result.getData().getStringExtra(AddEditAssessmentActivity.EXTRA_COURSE_ID);
                         int courseID = Integer.parseInt(ID);
-                        int assessmentID = result.getData().getIntExtra(AddEditAssessmentActivity.EXTRA_ASSESSMENT_ID, -1);
+//                        int assessmentID = result.getData().getIntExtra(AddEditAssessmentActivity.EXTRA_ASSESSMENT_ID, -1);
+                        String aID = result.getData().getStringExtra(AddEditAssessmentActivity.EXTRA_ASSESSMENT_ID);
+                        int assessmentID = Integer.parseInt(aID);
 
-                        Assessment assessment = new Assessment(title, type, start, end, courseID);
-                        assessment.setAssessmentID(assessmentID);
+                        Assessment assessment = new Assessment(title, type, start, end, courseID, assessmentID);
+//                        assessment.setAssessmentID(assessmentID);
                         assessmentViewModel.update(assessment);
 
 

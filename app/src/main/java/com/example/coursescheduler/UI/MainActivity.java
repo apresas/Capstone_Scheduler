@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 //        ScheduledCourse sc2 = new ScheduledCourse("Web Development", "01/01/22", "06/01/22", 0, 3);
 //        ScheduledCourse sc3 = new ScheduledCourse("Data Management", "01/01/22", "06/01/22", 0, 4);
 //        ScheduledCourse sc4 = new ScheduledCourse("Scripting and Programming", "01/01/22", "06/01/22", 0, 5);
-//        ScheduledCourse sc5 = new ScheduledCourse("UI Design", "01/01/22", "06/01/22", 0, 6 );
+//        ScheduledCourse sc5 = new ScheduledCourse("UI Design", "01/01/22", "06/01/22", 0, 6);
 //        ScheduledCourse sc6 = new ScheduledCourse("Mobile App Development", "01/01/22", "06/01/22", 0, 7);
 //
 //
@@ -71,12 +71,22 @@ public class MainActivity extends AppCompatActivity {
 //
 //
 //
-//        Assessment assessment = new Assessment("Database Project", "Performance","01/01/22", "05/30/22", 1);
-//        Assessment assessment1 = new Assessment("Mobile App Project", "Performance","06/01/22", "06/30/22", 2);
-//        Assessment assessment2 = new Assessment("Software Test", "Objective","07/01/22", "07/30/22", 3);
+//        Assessment assessment = new Assessment("Database Project", "Performance","01/01/22", "05/30/22", 1, 1);
+//        Assessment assessment1 = new Assessment("Mobile App Project", "Performance","06/01/22", "06/30/22", 7,2);
+//        Assessment assessment2 = new Assessment("Software Test", "Objective","07/01/22", "07/30/22", 5, 3);
+//        Assessment assessment3 = new Assessment("Design Plan", "Objective","07/01/22", "07/30/22", 6, 4);
+//        Assessment assessment4 = new Assessment("Inventory App", "Performance","07/01/22", "07/30/22", 2, 5);
+//        Assessment assessment5 = new Assessment("Database Test", "Objective","07/01/22", "07/30/22", 4, 6);
+//        Assessment assessment6 = new Assessment("Website Project", "Performance","07/01/22", "07/30/22", 3, 7);
 //        repo.insertAssessment(assessment);
 //        repo.insertAssessment(assessment1);
 //        repo.insertAssessment(assessment2);
+//        repo.insertAssessment(assessment3);
+//        repo.insertAssessment(assessment4);
+//        repo.insertAssessment(assessment5);
+//        repo.insertAssessment(assessment6);
+//
+//
 //        Term term = new Term( "Term 1", "01/01/22", "05/30/22");
 //        Term term1 = new Term("Term 2", "06/01/22", "01/01/23");
 //        Term term2 = new Term( "Spring Term", "03/01/22", "10/01/22");

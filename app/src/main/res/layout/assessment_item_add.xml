@@ -19,7 +19,7 @@
             android:padding="8dp">
 
             <TextView
-                android:id="@+id/text_view_assessmentID"
+                android:id="@+id/text_view_assessmentID_field"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="60dp"
@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_toStartOf="@id/text_view_assessmentID"
+                android:layout_toStartOf="@id/text_view_assessmentID_field"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="Assessment Title"

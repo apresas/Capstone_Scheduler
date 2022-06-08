@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "assessments")
 public class Assessment {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     private int assessmentID;
 
     private String assessmentTitle;
@@ -16,12 +16,13 @@ public class Assessment {
 
     // Constructor
 
-    public Assessment(String assessmentTitle, String assessmentType, String startDate, String endDate, int courseID) {
+    public Assessment(String assessmentTitle, String assessmentType, String startDate, String endDate, int courseID, int assessmentID) {
         this.assessmentTitle = assessmentTitle;
         this.assessmentType = assessmentType;
         this.startDate = startDate;
         this.endDate = endDate;
         this.courseID = courseID;
+        this.assessmentID = assessmentID;
     }
 
     // Getters

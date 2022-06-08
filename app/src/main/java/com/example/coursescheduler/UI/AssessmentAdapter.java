@@ -29,9 +29,12 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
 
     @Override
     public void onBindViewHolder(@NonNull AssessmentHolder holder, int position) {
+
+
         Assessment currentAssessment = assessments.get(position);
         int ID = currentAssessment.getAssessmentID();
         int courseID = currentAssessment.getCourseID();
+
 
         holder.assessmentIDTextView.setText(Integer.toString(ID));
         holder.textViewTitle.setText(currentAssessment.getAssessmentTitle());

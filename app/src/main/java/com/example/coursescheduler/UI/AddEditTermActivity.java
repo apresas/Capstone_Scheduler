@@ -91,10 +91,7 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
     SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
     private CourseViewModel courseViewModel;
     private ScheduledCourseAdapter scheduledCourseAdapter;
-    private NoteViewModel noteViewModel;
     static int courseTermID;
-    private AlertDialog.Builder dialogBuilder;
-    private AlertDialog dialog;
     private RecyclerView courseList;
     private TextView courseTitle;
     private TextView courseStart;
@@ -104,7 +101,6 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
     private TextInputEditText search;
     private RecyclerView scheduledCourseList;
     private FloatingActionButton confirmBtn;
-    private Button addBtn;
     private List<ScheduledCourse> sc = new ArrayList();
     private ScheduledCourseAdapter.OnItemClickListener listener;
     static ScheduledCourse scCourse;
@@ -112,8 +108,6 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
     AddEditCourseActivity addEditCourseActivity;
     private List<ScheduledCourse> scList = new ArrayList();
 
-//    CourseDialog courseDialog;
-//    Dialog courseDialog;
     private static final String TAG = "AddEditTermActivity";
 
     @Override
@@ -218,7 +212,6 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-//                    courseViewModel.delete(adapter.getCourseAt(viewHolder.getAdapterPosition()));
                     adapter.getCourseAt(viewHolder.getAdapterPosition()).setTermID(0);
                     courseViewModel.update(adapter.getCourseAt(viewHolder.getAdapterPosition()));
                     Toast.makeText(AddEditTermActivity.this, "Course Deleted", Toast.LENGTH_SHORT).show();
@@ -292,11 +285,9 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
                 intent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID_DISPLAY, String.valueOf(course.getCourseID()));
                 intent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID, course.getCourseID());
                 intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, tID);
-//                intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, String.valueOf(course.getTermID()));
                 intent.putExtra(AddEditCourseActivity.EXTRA_TITLE, course.getCourseTitle());
                 intent.putExtra(AddEditCourseActivity.EXTRA_START, course.getStartDate());
                 intent.putExtra(AddEditCourseActivity.EXTRA_END, course.getEndDate());
-//                courseTermID = AddEditCourseActivity.courseTermID;
                 activityUpdateResultLauncher.launch(intent);
 
 
@@ -474,15 +465,12 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
                         String end = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_END);
                         String ID = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_TERM_ID);
                         int termID = Integer.parseInt(ID);
-
-//                        int courseID = result.getData().getIntExtra(AddEditCourseActivity.EXTRA_COURSE_ID, -1);
                         String cID = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_COURSE_ID_DISPLAY);
                         int courseID = Integer.parseInt(cID);
                         System.out.println("Set Course ID: " + courseID);
 
                         Course course = new Course(title, start, end, termID, courseID);
                         course.setCourseID(courseID);
-//                        course.setTermID(courseTermID);
                         courseViewModel.update(course);
 
 
@@ -510,12 +498,6 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
     @Override
     public void goToCourseDetails(Course course) {
         Intent intent = new Intent(this, AddEditCourseActivity.class);
-//        intent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID, course.getCourseID());
-//        intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, courseTermID);
-//        intent.putExtra(AddEditCourseActivity.EXTRA_TITLE, course.getCourseTitle());
-//        intent.putExtra(AddEditCourseActivity.EXTRA_START, course.getStartDate());
-//        intent.putExtra(AddEditCourseActivity.EXTRA_END, course.getEndDate());
-
         activityUpdateResultLauncher.launch(intent);
     }
 
