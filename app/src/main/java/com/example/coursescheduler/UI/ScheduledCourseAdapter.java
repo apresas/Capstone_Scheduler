@@ -24,6 +24,7 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
     public List<ScheduledCourse> sc = new ArrayList();
     private List<Term> terms = new ArrayList();
     private OnItemClickListener listener;
+    private OnFragmentInteractionListener fListener;
     static int courseTermID;
     AddCourseListActivity addCourseListActivity;
 //    private OnFragmentInteractionListener iListener;
@@ -162,7 +163,10 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
             int courseID = scheduledCourse.getCourseID();
             String cID = String.valueOf(courseID);
             String tID = String.valueOf(courseTermID);
+
+            Course c = new Course(title, start, end, courseTermID, courseID);
             System.out.println("SELECT COURSE TITLE: " + title);
+            System.out.println(rootview.getContext().toString());
             Intent i = new Intent(rootview.getContext(), AddEditCourseActivity.class);
 //            i.putExtra(AddEditCourseActivity.SELECTED_COURSE, scheduledCourse);
             i.putExtra(AddEditCourseActivity.EXTRA_TITLE, title);
@@ -172,6 +176,10 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
             i.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID_DISPLAY, cID);
             i.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, tID);
             rootview.getContext().startActivity(i);
+//            listener.onItemClick(scheduledCourse);
+//            fListener.goToCourseDetails(c);
+//            fListener.goToCourseDetails();
+
 
 //            String start = scheduledCourse.getStartDate();
 //            String end = scheduledCourse.getEndDate();
@@ -187,6 +195,8 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
 
     public interface OnItemClickListener {
         void onItemClick(ScheduledCourse sc);
+//        void onItemClick();
+
     }
 //
 //
@@ -202,9 +212,13 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
 //    }
 
 
-//    public interface OnFragmentInteractionListener {
-////        void onFragmentInteraction(String title, String start, String end, int courseID, int termID);
-//        void goToCourseDetails(ScheduledCourse course);
-//    }
+    public interface OnFragmentInteractionListener {
+//        void onFragmentInteraction(String title, String start, String end, int courseID, int termID);
+        void goToCourseDetails(Course course);
+    }
+
+    public void setGoToCourseDetails(OnFragmentInteractionListener fListener) {
+        this.fListener = fListener;
+    }
 
 }

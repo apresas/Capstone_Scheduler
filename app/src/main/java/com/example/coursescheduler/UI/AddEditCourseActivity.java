@@ -53,7 +53,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AddEditCourseActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class AddEditCourseActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, FragmentCourse.OnFragmentInteractionListener {
 
     public static final String EXTRA_COURSE_ID_DISPLAY =
             "com.example.coursescheduler.EXTRA_COURSE_ID_DISPLAY";
@@ -133,7 +133,8 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
                 Intent intent = new Intent(AddEditCourseActivity.this, AddEditAssessmentActivity.class);
                 String courseID = editCourseID.getText().toString();
                 intent.putExtra(AddEditAssessmentActivity.EXTRA_COURSE_ID, courseID);
-                activityResultLauncher.launch(intent);
+                saveCourse();
+
 
             }
         });
@@ -285,20 +286,22 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
 
 
 
-        Intent data = new Intent(this, AddEditTermActivity.class);
+//        Intent data = new Intent(this, AddEditTermActivity.class);
+        Intent data = new Intent();
 
-        data.putExtra(AddEditTermActivity.EXTRA_ID, courseTermID);
-        data.putExtra(AddEditTermActivity.EXTRA_TERM_ID, courseTermID);
+        data.putExtra(AddEditTermActivity.EXTRA_ID, termID);
+        data.putExtra(AddEditTermActivity.EXTRA_TERM_ID, termID);
         data.putExtra(AddEditTermActivity.EXTRA_COURSE_ID, courseID);
+        data.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID_DISPLAY, courseID);
         data.putExtra(AddEditTermActivity.EXTRA_TITLE, title);
         data.putExtra(AddEditTermActivity.EXTRA_START, start);
         data.putExtra(AddEditTermActivity.EXTRA_END, end);
 
 
         System.out.println("Course Title Test: " + title);
-        System.out.println(courseTermID);
+        System.out.println("courseTermID: " + courseTermID);
+        System.out.println("TermID: " + termID);
         setResult(RESULT_OK, data);
-
         finish();
 
 
@@ -372,10 +375,10 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
                         assessmentViewModel.update(assessment);
 
 
-                        Toast.makeText(AddEditCourseActivity.this, "Updated", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddEditCourseActivity.this, "Assessment Updated", Toast.LENGTH_SHORT).show();
 
                     }else {
-                        Toast.makeText(AddEditCourseActivity.this, "NOT Updated", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddEditCourseActivity.this, "Assessment NOT Updated", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -432,5 +435,36 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
     }
 
 
+//    @Override
+//    public void onItemClick(ScheduledCourse sc) {
+//        String title = sc.getCourseTitle();
+//        String start = sc.getStartDate();
+//        String end = sc.getEndDate();
+//        int courseID = sc.getCourseID();
+//
+//
+//
+//
+////        Intent data = new Intent(this, AddEditTermActivity.class);
+//        Intent data = new Intent();
+//
+//        data.putExtra(AddEditTermActivity.EXTRA_ID, courseTermID);
+//        data.putExtra(AddEditTermActivity.EXTRA_TERM_ID, courseTermID);
+//        data.putExtra(AddEditTermActivity.EXTRA_COURSE_ID, courseID);
+//        data.putExtra(AddEditTermActivity.EXTRA_TITLE, title);
+//        data.putExtra(AddEditTermActivity.EXTRA_START, start);
+//        data.putExtra(AddEditTermActivity.EXTRA_END, end);
+//
+//
+//        System.out.println("Course Title Test: " + title);
+//        System.out.println(courseTermID);
+//        setResult(RESULT_OK, data);
+//        finish();
+//
+//    }
 
+    @Override
+    public void goToCourseDetails(Course course) {
+
+    }
 }

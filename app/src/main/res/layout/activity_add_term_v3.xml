@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".UI.AddEditTermActivity"
+    android:id="@+id/main_container"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <RelativeLayout
+            android:id="@+id/form_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <LinearLayout
+                android:id="@+id/termLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+               android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/termIDTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Term ID:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <TextView
+                    android:id="@+id/edit_text_termID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:hint="Auto"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+
+                    />
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/termLayout"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:paddingBottom="10dp"
+                android:layout_marginBottom="10dp"
+
+                >
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/title_field"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/ESC_Main">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/text_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Title"
+
+
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/start_field"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/title_field"
+                    android:layout_marginBottom="10dp"
+
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/ESC_Main"
+                    app:startIconDrawable="@drawable/ic_calendar"
+                    app:startIconTint="@color/ESC_Main">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/start_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Start" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/end_field"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/start_field"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/ESC_Main"
+                    app:startIconDrawable="@drawable/ic_calendar"
+                    app:startIconTint="@color/ESC_Main">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/end_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="End" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+
+        <ScrollView
+            android:id="@+id/add_course_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/form_container"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            >
+        <TextView
+            android:id="@+id/courseListTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Scheduled Course(s): "
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:layout_marginBottom="10dp"
+            />
+
+        <RelativeLayout
+            android:id="@+id/course_container"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@drawable/et_layout"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@id/courseListTextView"
+
+            >
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/courseRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                tools:listitem="@layout/course_item"></androidx.recyclerview.widget.RecyclerView>
+
+
+        </RelativeLayout>
+            <TextView
+                android:id="@+id/all_course_list_TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Course List: "
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@id/course_container"
+                />
+
+            <RelativeLayout
+                android:id="@+id/all_course_container"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:background="@drawable/et_layout"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@id/all_course_list_TextView"
+
+                >
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/all_course_RecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        tools:listitem="@layout/course_item">
+                    </androidx.recyclerview.widget.RecyclerView>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/button_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/all_course_container"
+                android:layout_alignParentBottom="true"
+
+                >
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/button_open_course"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_add"
+                    app:backgroundTint="@color/ESC_Main"
+
+                    app:tint="@color/white" />
+            </RelativeLayout>
+        </RelativeLayout>
+        </ScrollView>
+    </LinearLayout>
+</RelativeLayout>

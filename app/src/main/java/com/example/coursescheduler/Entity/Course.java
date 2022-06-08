@@ -9,12 +9,12 @@ import com.example.coursescheduler.DAO.CourseDAO;
 @Entity(tableName = "courses")
 public class Course {
     @PrimaryKey(autoGenerate = false)
-    private int courseID;
+    public int courseID;
 
-    private String courseTitle;
-    private String startDate;
-    private String endDate;
-    private int termID;
+    public String courseTitle;
+    public String startDate;
+    public String endDate;
+    public int termID;
 
     // Constructor
     public Course(String courseTitle, String startDate, String endDate, int termID, int courseID) {

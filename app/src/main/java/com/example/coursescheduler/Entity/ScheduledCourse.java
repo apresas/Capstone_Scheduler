@@ -7,40 +7,23 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "all_courses")
-public class ScheduledCourse implements Parcelable {
+public class ScheduledCourse extends Course{
     @PrimaryKey(autoGenerate = false)
-    private int courseID;
-    private String courseTitle;
-    private String startDate;
-    private String endDate;
+    public int courseID;
+    public String courseTitle;
+    public String startDate;
+    public String endDate;
 
     // Constructor
-    public ScheduledCourse(String courseTitle, String startDate, String endDate, int courseID) {
+    public ScheduledCourse(String courseTitle, String startDate, String endDate, int termID, int courseID) {
+        super(courseTitle,startDate,endDate,termID, courseID);
         this.courseTitle = courseTitle;
         this.startDate = startDate;
         this.endDate = endDate;
         this.courseID = courseID;
     }
 
-    protected ScheduledCourse(Parcel in) {
-        courseID = in.readInt();
-        courseTitle = in.readString();
-        startDate = in.readString();
-        endDate = in.readString();
-        courseID = in.readInt();
-    }
 
-    public static final Creator<ScheduledCourse> CREATOR = new Creator<ScheduledCourse>() {
-        @Override
-        public ScheduledCourse createFromParcel(Parcel in) {
-            return new ScheduledCourse(in);
-        }
-
-        @Override
-        public ScheduledCourse[] newArray(int size) {
-            return new ScheduledCourse[size];
-        }
-    };
 
     // Getters
     public int getCourseID() {
@@ -58,6 +41,8 @@ public class ScheduledCourse implements Parcelable {
     public String getEndDate() {
         return endDate;
     }
+
+
 
 
 
@@ -79,16 +64,5 @@ public class ScheduledCourse implements Parcelable {
         this.endDate = endDate;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(courseID);
-        parcel.writeString(courseTitle);
-        parcel.writeString(startDate);
-        parcel.writeString(endDate);
-    }
 }
