@@ -184,8 +184,8 @@ public class AddEditAssessmentActivity extends AppCompatActivity implements Adap
 
 
             assessmentCourseIDField.setText(intent.getStringExtra(EXTRA_COURSE_ID));
-//            assessmentIDField.setText(intent.getStringExtra(EXTRA_ASSESSMENT_ID_DISPLAY));
-            assessmentIDField.setText(intent.getStringExtra(EXTRA_ASSESSMENT_ID));
+            assessmentIDField.setText(intent.getStringExtra(EXTRA_ASSESSMENT_ID_DISPLAY));
+//            assessmentIDField.setText(intent.getStringExtra(EXTRA_ASSESSMENT_ID));
             assessmentTitleField.setText(intent.getStringExtra(EXTRA_TITLE));
             assessmentTypeField.setText(intent.getStringExtra(EXTRA_TYPE));
             assessmentStartField.setText(intent.getStringExtra(EXTRA_START));

@@ -144,41 +144,41 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
 
 
 
-        // Go to AddEditCourse
-        buttonAddTerm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-//                courseDialog.termID = editTermID.getText().toString();
-//                scheduledCourseAdapter.termID = editTermID.getText().toString();
-//                ScheduledCourseAdapter.courseTermID = Integer.parseInt(editTermID.getText().toString());
-//                createNewCourseDialog();
-                String termID = editTermID.getText().toString();
-                ScheduledCourseAdapter.courseTermID = Integer.parseInt(termID);
-                AddCourseListActivity.courseTermID = Integer.parseInt(termID);
-                AddEditCourseActivity.courseTermID = Integer.parseInt(termID);
-//                int tID = Integer.parseInt(termID);
-                Intent intent = new Intent(AddEditTermActivity.this, AddCourseListActivity.class);
-                intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, termID);
-                activityResultLauncher.launch(intent);
-//                System.out.println("Term Button Clicked");
-
-//                startActivity(intent);
-//                openFragment();
-
-
-//                CourseDialog.courseTermID = Integer.parseInt(termID);
-//                courseTermID = Integer.parseInt(termID);
-//                CourseDialog courseDialog = new CourseDialog();
-//                courseDialog.show(getSupportFragmentManager(), "Add Course Dialog");
-
-
-
-
-
-//                openDialog();
-
-            }
-        });
+//        // Go to AddEditCourse
+//        buttonAddTerm.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v){
+////                courseDialog.termID = editTermID.getText().toString();
+////                scheduledCourseAdapter.termID = editTermID.getText().toString();
+////                ScheduledCourseAdapter.courseTermID = Integer.parseInt(editTermID.getText().toString());
+////                createNewCourseDialog();
+//                String termID = editTermID.getText().toString();
+//                ScheduledCourseAdapter.courseTermID = Integer.parseInt(termID);
+//                AddCourseListActivity.courseTermID = Integer.parseInt(termID);
+//                AddEditCourseActivity.courseTermID = Integer.parseInt(termID);
+////                int tID = Integer.parseInt(termID);
+//                Intent intent = new Intent(AddEditTermActivity.this, AddCourseListActivity.class);
+//                intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, termID);
+//                activityResultLauncher.launch(intent);
+////                System.out.println("Term Button Clicked");
+//
+////                startActivity(intent);
+////                openFragment();
+//
+//
+////                CourseDialog.courseTermID = Integer.parseInt(termID);
+////                courseTermID = Integer.parseInt(termID);
+////                CourseDialog courseDialog = new CourseDialog();
+////                courseDialog.show(getSupportFragmentManager(), "Add Course Dialog");
+//
+//
+//
+//
+//
+////                openDialog();
+//
+//            }
+//        });
 
 
 
