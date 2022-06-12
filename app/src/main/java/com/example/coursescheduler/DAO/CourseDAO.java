@@ -33,6 +33,9 @@ public interface CourseDAO {
     @Query("SELECT * FROM courses ORDER BY courseID DESC")
     LiveData<List<Course>> getAllCourses();
 
+    @Query("SELECT * FROM courses WHERE courseTitle = :title ORDER BY courseID DESC")
+    LiveData<List<Course>> searchDatabase(String title);
+
     @Query("SELECT * FROM courses ORDER BY courseID DESC")
     List<Course> getAllAssignedCourses();
 

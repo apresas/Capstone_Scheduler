@@ -3,10 +3,15 @@ package com.example.coursescheduler.UI;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +54,7 @@ import com.google.android.material.textview.MaterialTextView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -92,7 +99,10 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
     private TextInputEditText courseTitle;
     private TextInputEditText startDate;
     private TextInputEditText endDate;
+    private TextView instructorName;
     static int courseTermID;
+    ArrayList<String> instructorList;
+    Dialog dialog;
     ScheduledCourseAdapter.OnItemClickListener listener;
     AddEditTermActivity addEditTermActivity;
 
@@ -113,6 +123,65 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
         endDate = findViewById(R.id.end_input);
         dateFormat = "MM/dd/yy";
         sdf = new SimpleDateFormat(dateFormat, Locale.US);
+
+        instructorName = findViewById(R.id.instructorNameDropdown);
+
+        instructorList = new ArrayList<>();
+
+        instructorList.add("John Doe");
+        instructorList.add("Robert Roy");
+        instructorList.add("James Jameson");
+        instructorList.add("Mike Michelson");
+        instructorList.add("Mary Mountain");
+        instructorList.add("Patricia Pearson");
+        instructorList.add("Jennifer Johansen");
+        instructorList.add("Linda Larson");
+        instructorList.add("Elizabeth Ellis");
+
+        instructorName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog = new Dialog(AddEditCourseActivity.this);
+                dialog.setContentView(R.layout.dialog_searchable_dropdown);
+                dialog.getWindow().setLayout(900,1200);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+
+                EditText editText = dialog.findViewById(R.id.edit_text);
+                ListView listView = dialog.findViewById(R.id.list_view);
+
+                ArrayAdapter<String> adapter  = new ArrayAdapter<>(AddEditCourseActivity.this,
+                        android.R.layout.simple_list_item_1, instructorList);
+
+                listView.setAdapter(adapter);
+
+                editText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        adapter.getFilter().filter(charSequence);
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        instructorName.setText(adapter.getItem(i));
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+
 
 //        if (getIntent().hasExtra(SELECTED_COURSE)){
 //        ScheduledCourse scCourse = getIntent().getParcelableExtra("SELECTED_COURSE");
@@ -386,7 +455,7 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
                         Toast.makeText(AddEditCourseActivity.this, "Assessment Updated", Toast.LENGTH_SHORT).show();
 
                     }else {
-                        Toast.makeText(AddEditCourseActivity.this, "Assessment NOT Updated", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddEditCourseActivity.this, "Closing Assessment Details", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

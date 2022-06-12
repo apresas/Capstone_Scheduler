@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,6 +24,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.NumberPicker;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -106,7 +109,9 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
     static ScheduledCourse scCourse;
     FrameLayout fragmentContainer;
     AddEditCourseActivity addEditCourseActivity;
-    private List<ScheduledCourse> scList = new ArrayList();
+    CourseAdapter courseAdapter;
+    public List<Course> courses = new ArrayList<>();
+    private SearchView searchView;
 
     private static final String TAG = "AddEditTermActivity";
 
@@ -129,6 +134,49 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
         courseStart = findViewById(R.id.edit_add_course_start);
         courseEnd = findViewById(R.id.edit_add_course_end);
         courseID = findViewById(R.id.text_view_add_courseID);
+
+
+        searchView = findViewById(R.id.search_view);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+//                courseAdapter.getFilter().filter(s);
+//                courseAdapter.getFilter().filter(s.toString());
+
+//                filterList(s);
+//                courseAdapter.getFilter().filter(s);
+                return true;
+            }
+        });
+
+
+//        TextInputEditText search = findViewById(R.id.search_input);
+//        search.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                courseAdapter.getFilter().filter(s.toString());
+////                courseAdapter.getFilter().filter(s.toString());
+////                filter(s.toString());
+//            }
+//        });
+
+
+
 
         fragmentContainer = (FrameLayout) findViewById(R.id.add_course_frame);
 
@@ -188,8 +236,9 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
         recyclerView.setHasFixedSize(true);
 
         // Adapter
-        final CourseAdapter adapter = new CourseAdapter();
+        final CourseAdapter adapter = new CourseAdapter(this, courses);
         recyclerView.setAdapter(adapter);
+
 
 
         // View Model
@@ -201,6 +250,8 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
                 adapter.setCourse(courses);
             }
         });
+
+
 
         // Touch helper
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
@@ -244,18 +295,22 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
         RecyclerView rv = findViewById(R.id.all_course_RecyclerView);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setHasFixedSize(true);
+//        courses = new ArrayList<>();
 
         // Adapter
-        CourseAdapter ca = new CourseAdapter();
+        CourseAdapter ca = new CourseAdapter(this, courses);
         rv.setAdapter(ca);
+
 
 
         // View Model
         courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
+
         courseViewModel.getAssignedCourses(0).observe(this, new Observer<List<Course>>() {
             @Override
             public void onChanged(List<Course> courses) {
                 ca.setCourse(courses);
+                setCourseList(courses);
             }
         });
 
@@ -369,6 +424,34 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
         }
 
 
+    }
+
+    private void filterList(String text) {
+        List<Course> filteredList = new ArrayList<>();
+        System.out.println("Course List Size: " + courses.size());
+        System.out.println("Filter List Size: " + filteredList.size());
+        for (Course item : courses) {
+            if (item.getCourseTitle().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(item);
+            }
+        }
+
+        if (filteredList.isEmpty()){
+            Toast.makeText(this, "Not Data Found", Toast.LENGTH_SHORT).show();
+        } else {
+            courseAdapter.setFilteredList(filteredList);
+        }
+    }
+
+    private void filter(String text) {
+        List<Course> filteredList = new ArrayList<>();
+        for (Course item : courses) {
+            if (item.getCourseTitle().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(item);
+            }
+        }
+        courseAdapter.setFilteredList(filteredList);
+//        courseAdapter.filteredList(filteredList);
     }
 
     private void updateLabelStart() {startDate.setText(sdf.format(calendarStart.getTime()));}
@@ -499,6 +582,10 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
     public void goToCourseDetails(Course course) {
         Intent intent = new Intent(this, AddEditCourseActivity.class);
         activityUpdateResultLauncher.launch(intent);
+    }
+
+    public void setCourseList(List<Course> courses) {
+        this.courses = courses;
     }
 
 }

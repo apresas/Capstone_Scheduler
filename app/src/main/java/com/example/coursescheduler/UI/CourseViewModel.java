@@ -58,6 +58,11 @@ public class CourseViewModel extends AndroidViewModel {
         return assignedCourses;
     }
 
+    public LiveData<List<Course>> searchCourse(String title) {
+        assignedCourses = repository.getSearchCourses(title);
+        return assignedCourses;
+    }
+
     public List<Course> getAssignedTermID(int termID) {
         assignedTermID = repository.getAssignedTermID(termID);
         return assignedTermID;

@@ -19,6 +19,8 @@ import com.example.coursescheduler.Entity.ScheduledCourse;
 import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.R;
 
+import java.util.HashMap;
+
 public class MainActivity extends AppCompatActivity {
     public static int numAlert;
     public EditText editUsername;
@@ -33,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
         editUsername = findViewById(R.id.emailField);
         editPassword = findViewById(R.id.password_field);
 
+
+
+
+
     }
     public void enterHere(View view) {
         String userPassword = editPassword.getText().toString();
@@ -42,7 +48,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             editUsername.setText("");
             editPassword.setText("");
-        } else {
+        } else if (!"password".equals(userPassword)) {
+            Toast.makeText(MainActivity.this, "Incorrect password. Please input the correct password.", Toast.LENGTH_SHORT).show();
+        } else if (!"username".equals(userUsername)){
+            Toast.makeText(MainActivity.this, "Incorrect Username. Please enter the correct Username.", Toast.LENGTH_SHORT).show();
+        }
+        else if (!"username".equals(userUsername) && !"password".equals(userPassword)) {
             Toast.makeText(MainActivity.this, "Please Enter Valid Username and Password", Toast.LENGTH_SHORT).show();
         }
 
@@ -124,6 +135,10 @@ public class MainActivity extends AppCompatActivity {
 //        repo.insertInstructor(instructor);
 //        repo.insertInstructor(instructor1);
 //        repo.insertInstructor(instructor2);
+
+
+
+
 
 
     }

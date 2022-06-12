@@ -41,6 +41,8 @@ public class ScheduleRepo {
     private LiveData<List<Instructor>> assignedInstructors;
     private ScheduledCourseDAO scDAO;
     private LiveData<List<ScheduledCourse>> allScheduledCourses;
+    private LiveData<List<Course>> searchedCourses;
+    private List<Course> test;
 
 
 
@@ -174,6 +176,10 @@ public class ScheduleRepo {
         return assignedTermID;
     }
 
+    public LiveData<List<Course>> getSearchCourses(String title) {
+        searchedCourses = courseDAO.searchDatabase(title);
+        return assignedCourses;
+    }
 
     // COURSE ASYNC
     private static class InsertCourseAsyncTask extends AsyncTask<Course, Void, Void> {

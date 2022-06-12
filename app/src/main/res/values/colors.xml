@@ -12,7 +12,7 @@
     <color name="WGU_Main">#002f51</color>
     <color name="WGU_Alt">#002f51</color>
     <color name="ET_BG">#ddd</color>
-    <color name="ET_Stroke">#aaa</color>
+    <color name="ET_Stroke">#ddd</color>
 
     // ESC COLORS
     <color name="ESC_Main">#3a9181</color>

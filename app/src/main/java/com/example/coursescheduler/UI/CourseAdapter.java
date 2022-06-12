@@ -1,11 +1,14 @@
 package com.example.coursescheduler.UI;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,15 +21,27 @@ import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.R;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
-public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHolder> {
-    private List<Course> courses = new ArrayList();
-    private List<Term> terms = new ArrayList();
+public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHolder> implements Filterable {
+    public List<Course> courses;
+    public List<Course> coursesListFull;
     private OnItemClickListener listener;
-    AddEditCourseActivity addEditCourseActivity;
-    static int courseID;
+    Context context;
+    AddEditTermActivity addEditTermActivity;
 
+    CourseAdapter(Context context, List<Course> courses){
+        this.context = context;
+        this.courses = courses;
+        coursesListFull = new ArrayList<>(courses);
+    }
+
+    public void setFilteredList(List<Course> filteredList) {
+        this.courses = filteredList;
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
@@ -65,6 +80,41 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         return courses.get(position);
     }
 
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    public Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Course> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(coursesListFull);
+            }else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (Course item : coursesListFull){
+                    if (item.getCourseTitle().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            courses.clear();
+            courses.addAll((Collection<? extends Course>) filterResults.values);
+//            courses.addAll((List) filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
+
     class CourseHolder extends RecyclerView.ViewHolder {
 
         private TextView courseIDTextView;
@@ -90,6 +140,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
+                    System.out.println("Course List Size: " + courses.size());
                     if (listener != null && position != RecyclerView.NO_POSITION) {
                         listener.onItemClick(courses.get(position));
                     }
@@ -107,5 +158,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
+
 
 }
