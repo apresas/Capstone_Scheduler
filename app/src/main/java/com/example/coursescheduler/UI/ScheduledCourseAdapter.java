@@ -26,7 +26,6 @@ public class ScheduledCourseAdapter extends RecyclerView.Adapter<ScheduledCourse
     private OnItemClickListener listener;
     private OnFragmentInteractionListener fListener;
     static int courseTermID;
-    AddCourseListActivity addCourseListActivity;
 //    private OnFragmentInteractionListener iListener;
 
 

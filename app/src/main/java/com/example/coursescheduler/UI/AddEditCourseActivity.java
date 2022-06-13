@@ -60,7 +60,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AddEditCourseActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, FragmentCourse.OnFragmentInteractionListener {
+public class AddEditCourseActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static final String EXTRA_COURSE_ID_DISPLAY =
             "com.example.coursescheduler.EXTRA_COURSE_ID_DISPLAY";
@@ -540,8 +540,5 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
 //
 //    }
 
-    @Override
-    public void goToCourseDetails(Course course) {
 
-    }
 }

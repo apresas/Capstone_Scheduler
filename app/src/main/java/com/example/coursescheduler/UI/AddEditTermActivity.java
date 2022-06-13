@@ -63,7 +63,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AddEditTermActivity extends AppCompatActivity implements FragmentCourse.OnFragmentInteractionListener {
+public class AddEditTermActivity extends AppCompatActivity {
 
     public static final String EXTRA_COURSE_ID =
             "com.example.coursescheduler.EXTRA_COURSE_ID";
@@ -136,23 +136,7 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
         courseID = findViewById(R.id.text_view_add_courseID);
 
 
-        searchView = findViewById(R.id.search_view);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
 
-            @Override
-            public boolean onQueryTextChange(String s) {
-//                courseAdapter.getFilter().filter(s);
-//                courseAdapter.getFilter().filter(s.toString());
-
-//                filterList(s);
-//                courseAdapter.getFilter().filter(s);
-                return true;
-            }
-        });
 
 
 //        TextInputEditText search = findViewById(R.id.search_input);
@@ -565,24 +549,6 @@ public class AddEditTermActivity extends AppCompatActivity implements FragmentCo
                 }
             }
     );
-
-
-
-    public void openFragment() {
-        FragmentCourse fragment = FragmentCourse.newInstance();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
-        transaction.addToBackStack(null);
-        transaction.add(R.id.add_course_frame, fragment, "Blank_Fragment").commit();
-
-    }
-
-    @Override
-    public void goToCourseDetails(Course course) {
-        Intent intent = new Intent(this, AddEditCourseActivity.class);
-        activityUpdateResultLauncher.launch(intent);
-    }
 
     public void setCourseList(List<Course> courses) {
         this.courses = courses;

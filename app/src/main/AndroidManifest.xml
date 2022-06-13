@@ -13,18 +13,12 @@
             android:name=".UI.MyReceiver"
             android:enabled="true"
             android:exported="true" />
+<!--        <activity-->
+<!--            android:name=".UI.AddEditNoteActivity"-->
+<!--            android:parentActivityName=".UI.AddEditCourseActivity"-->
+<!--            android:launchMode="singleTop"-->
+<!--            android:exported="false" />-->
         <activity
-            android:name=".UI.AddEditNoteActivity"
-            android:parentActivityName=".UI.AddEditCourseActivity"
-            android:launchMode="singleTop"
-            android:exported="false" />
-        <activity
-            android:name=".UI.AddEditInstructorActivity"
-            android:parentActivityName=".UI.AddEditCourseActivity"
-            android:launchMode="singleTop"
-            android:exported="false"
-            />
-       <activity
            android:name=".UI.AddEditTermActivity"
            android:parentActivityName=".UI.TermActivity"
            android:launchMode="singleTop"
@@ -39,11 +33,6 @@
         <activity
             android:name=".UI.AddEditAssessmentActivity"
             android:parentActivityName=".UI.AddEditCourseActivity"
-            android:launchMode="singleTop"
-            android:exported="false"/>
-        <activity
-            android:name=".UI.AddCourseListActivity"
-            android:parentActivityName=".UI.AddEditTermActivity"
             android:launchMode="singleTop"
             android:exported="false"/>
 
