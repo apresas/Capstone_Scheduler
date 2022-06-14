@@ -138,12 +138,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/end_field"
-                    android:background="@drawable/et_layout"
-                    android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
-                    android:hint="Instructor"
-                    android:padding="15dp"
                     android:layout_marginBottom="5dp"
+                    android:background="@drawable/et_layout_color"
+                    android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+                    android:hint="Select Instructor"
+                    android:padding="15dp"
+                    android:textColorHint="@color/ESC_Main"
+                    android:textColor="@color/black"
+
                     >
+
                 </TextView>
 
 

@@ -11,13 +11,13 @@ import com.example.coursescheduler.DAO.AssessmentDAO;
 import com.example.coursescheduler.DAO.CourseDAO;
 import com.example.coursescheduler.DAO.InstructorDAO;
 import com.example.coursescheduler.DAO.NoteDAO;
-import com.example.coursescheduler.DAO.ScheduledCourseDAO;
+//import com.example.coursescheduler.DAO.ScheduledCourseDAO;
 import com.example.coursescheduler.DAO.TermDAO;
 import com.example.coursescheduler.Entity.Assessment;
 import com.example.coursescheduler.Entity.Course;
 import com.example.coursescheduler.Entity.Instructor;
 import com.example.coursescheduler.Entity.Note;
-import com.example.coursescheduler.Entity.ScheduledCourse;
+//import com.example.coursescheduler.Entity.ScheduledCourse;
 import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.UI.AddEditTermActivity;
 
@@ -39,8 +39,8 @@ public class ScheduleRepo {
     private InstructorDAO instructorDAO;
     private LiveData<List<Instructor>> allInstructors;
     private LiveData<List<Instructor>> assignedInstructors;
-    private ScheduledCourseDAO scDAO;
-    private LiveData<List<ScheduledCourse>> allScheduledCourses;
+//    private ScheduledCourseDAO scDAO;
+//    private LiveData<List<ScheduledCourse>> allScheduledCourses;
     private LiveData<List<Course>> searchedCourses;
     private List<Course> test;
 
@@ -58,8 +58,8 @@ public class ScheduleRepo {
         allNotes = noteDAO.getAllNotes();
         instructorDAO = database.instructorDAO();
         allInstructors = instructorDAO.getAllInstructors();
-        scDAO = database.scDAO();
-        allScheduledCourses = scDAO.getAllScheduledCourses();
+//        scDAO = database.scDAO();
+//        allScheduledCourses = scDAO.getAllScheduledCourses();
 
 
 
@@ -453,80 +453,80 @@ public class ScheduleRepo {
     }
 
 
-    // SCHEDULED COURSE
-    public void insertScheduledCourse(ScheduledCourse sc){
-        new InsertScheduledCourseAsyncTask(scDAO).execute(sc);
-    }
-
-    public void updateScheduledCourse(ScheduledCourse sc){
-        new UpdateScheduledCourseAsyncTask(scDAO).execute(sc);
-    }
-
-    public void deleteScheduledCourse(ScheduledCourse sc){
-        new DeleteScheduledCourseAsyncTask(scDAO).execute(sc);
-    }
-
-    public LiveData<List<ScheduledCourse>> getAllSchduledCourses() {
-        return allScheduledCourses;
-    }
-
-//    public List<Course> getAllAssignedCourses() {
-//        return allAssignedCourses;
+//    // SCHEDULED COURSE
+//    public void insertScheduledCourse(ScheduledCourse sc){
+//        new InsertScheduledCourseAsyncTask(scDAO).execute(sc);
 //    }
 //
-//    public LiveData<List<Course>> getAssignedCourses(int termID) {
-//        assignedCourses = courseDAO.getAssignedCourses(termID);
-//        return assignedCourses;
+//    public void updateScheduledCourse(ScheduledCourse sc){
+//        new UpdateScheduledCourseAsyncTask(scDAO).execute(sc);
 //    }
 //
-//    public List<Course> getAssignedTermID(int termID) {
-//        assignedTermID = courseDAO.getAssignedTermID(termID);
-//        return assignedTermID;
+//    public void deleteScheduledCourse(ScheduledCourse sc){
+//        new DeleteScheduledCourseAsyncTask(scDAO).execute(sc);
 //    }
-
-
-    // SCHEDULED COURSE ASYNC
-    private static class InsertScheduledCourseAsyncTask extends AsyncTask<ScheduledCourse, Void, Void> {
-        private ScheduledCourseDAO scDAO;
-
-        private InsertScheduledCourseAsyncTask(ScheduledCourseDAO scDAO) {
-            this.scDAO = scDAO;
-        }
-
-        @Override
-        protected Void doInBackground(ScheduledCourse... sc) {
-            scDAO.insert(sc[0]);
-            return null;
-        }
-    }
-
-    private static class UpdateScheduledCourseAsyncTask extends AsyncTask<ScheduledCourse, Void, Void> {
-        private ScheduledCourseDAO scDAO;
-
-        private UpdateScheduledCourseAsyncTask(ScheduledCourseDAO scDAO) {
-            this.scDAO = scDAO;
-        }
-
-        @Override
-        protected Void doInBackground(ScheduledCourse... sc) {
-            scDAO.update(sc[0]);
-            return null;
-        }
-    }
-
-    private static class DeleteScheduledCourseAsyncTask extends AsyncTask<ScheduledCourse, Void, Void> {
-        private ScheduledCourseDAO scDAO;
-
-        private DeleteScheduledCourseAsyncTask(ScheduledCourseDAO scDAO) {
-            this.scDAO = scDAO;
-        }
-
-        @Override
-        protected Void doInBackground(ScheduledCourse... sc) {
-            scDAO.delete(sc[0]);
-            return null;
-        }
-    }
+//
+//    public LiveData<List<ScheduledCourse>> getAllSchduledCourses() {
+//        return allScheduledCourses;
+//    }
+//
+////    public List<Course> getAllAssignedCourses() {
+////        return allAssignedCourses;
+////    }
+////
+////    public LiveData<List<Course>> getAssignedCourses(int termID) {
+////        assignedCourses = courseDAO.getAssignedCourses(termID);
+////        return assignedCourses;
+////    }
+////
+////    public List<Course> getAssignedTermID(int termID) {
+////        assignedTermID = courseDAO.getAssignedTermID(termID);
+////        return assignedTermID;
+////    }
+//
+//
+//    // SCHEDULED COURSE ASYNC
+//    private static class InsertScheduledCourseAsyncTask extends AsyncTask<ScheduledCourse, Void, Void> {
+//        private ScheduledCourseDAO scDAO;
+//
+//        private InsertScheduledCourseAsyncTask(ScheduledCourseDAO scDAO) {
+//            this.scDAO = scDAO;
+//        }
+//
+//        @Override
+//        protected Void doInBackground(ScheduledCourse... sc) {
+//            scDAO.insert(sc[0]);
+//            return null;
+//        }
+//    }
+//
+//    private static class UpdateScheduledCourseAsyncTask extends AsyncTask<ScheduledCourse, Void, Void> {
+//        private ScheduledCourseDAO scDAO;
+//
+//        private UpdateScheduledCourseAsyncTask(ScheduledCourseDAO scDAO) {
+//            this.scDAO = scDAO;
+//        }
+//
+//        @Override
+//        protected Void doInBackground(ScheduledCourse... sc) {
+//            scDAO.update(sc[0]);
+//            return null;
+//        }
+//    }
+//
+//    private static class DeleteScheduledCourseAsyncTask extends AsyncTask<ScheduledCourse, Void, Void> {
+//        private ScheduledCourseDAO scDAO;
+//
+//        private DeleteScheduledCourseAsyncTask(ScheduledCourseDAO scDAO) {
+//            this.scDAO = scDAO;
+//        }
+//
+//        @Override
+//        protected Void doInBackground(ScheduledCourse... sc) {
+//            scDAO.delete(sc[0]);
+//            return null;
+//        }
+//    }
 
 //    private static class DeleteAllCoursesAsyncTask extends AsyncTask<Void, Void, Void> {
 //        private CourseDAO courseDAO;

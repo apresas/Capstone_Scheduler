@@ -15,14 +15,16 @@ public class Course {
     public String startDate;
     public String endDate;
     public int termID;
+    public String instructor;
 
     // Constructor
-    public Course(String courseTitle, String startDate, String endDate, int termID, int courseID) {
+    public Course(String courseTitle, String startDate, String endDate, int termID, int courseID, String instructor) {
         this.courseTitle = courseTitle;
         this.startDate = startDate;
         this.endDate = endDate;
         this.termID = termID;
         this.courseID = courseID;
+        this.instructor = instructor;
     }
 
     // Getters
@@ -44,6 +46,9 @@ public class Course {
 
     public int getTermID() {return termID;}
 
+    public String getInstructor() {
+        return instructor;
+    }
 
     // Setters
 
@@ -67,5 +72,9 @@ public class Course {
     public int setTermID(int termID) {
         this.termID = termID;
         return termID;
+    }
+
+    public void setInstructor(String instructor) {
+        this.instructor = instructor;
     }
 }

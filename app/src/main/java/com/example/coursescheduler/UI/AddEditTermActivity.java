@@ -1,14 +1,23 @@
 package com.example.coursescheduler.UI;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.pdf.PdfDocument;
+import android.graphics.pdf.PdfRenderer;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -35,6 +44,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -46,15 +56,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coursescheduler.Database.ScheduleRepo;
+import com.example.coursescheduler.Entity.Assessment;
 import com.example.coursescheduler.Entity.Course;
 import com.example.coursescheduler.Entity.Note;
-import com.example.coursescheduler.Entity.ScheduledCourse;
 import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.w3c.dom.Document;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -79,6 +97,10 @@ public class AddEditTermActivity extends AppCompatActivity {
             "com.example.coursescheduler.EXTRA_START";
     public static final String EXTRA_END =
             "com.example.coursescheduler.EXTRA_END";
+    public static final String EXTRA_INSTRUCTOR =
+            "com.example.coursescheduler.EXTRA_INSTRUCTOR";
+    public static final String EXTRA_INSTRUCTOR_POS =
+            "com.example.coursescheduler.EXTRA_INSTRUCTOR_POS";
     public static final String SELECTED_COURSE =
             "com.example.coursescheduler.SELECTED_COURSE";
 
@@ -93,25 +115,34 @@ public class AddEditTermActivity extends AppCompatActivity {
     String dateFormat = "MM/dd/yy";
     SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
     private CourseViewModel courseViewModel;
-    private ScheduledCourseAdapter scheduledCourseAdapter;
     static int courseTermID;
     private RecyclerView courseList;
     private TextView courseTitle;
     private TextView courseStart;
     private TextView courseEnd;
     private TextView courseID;
-    private ScheduledCourseViewModel scViewModel;
     private TextInputEditText search;
     private RecyclerView scheduledCourseList;
     private FloatingActionButton confirmBtn;
-    private List<ScheduledCourse> sc = new ArrayList();
-    private ScheduledCourseAdapter.OnItemClickListener listener;
-    static ScheduledCourse scCourse;
-    FrameLayout fragmentContainer;
     AddEditCourseActivity addEditCourseActivity;
     CourseAdapter courseAdapter;
     public List<Course> courses = new ArrayList<>();
-    private SearchView searchView;
+    AssessmentViewModel assessmentViewModel;
+    int pageWidth = 1200;
+    Date dateObj;
+    DateFormat pdfDateFormat;
+    AssessmentAdapter assessmentAdapter;
+
+    String cTitleSchedule;
+    String cInstructorSchedule;
+    String cStartSchedule;
+    String cEndSchedule;
+    int cID;
+    String aTitleSchedule;
+    String aTypeSchedule;
+    String aStartSchedule;
+    String aEndSchedule;
+    int aID;
 
     private static final String TAG = "AddEditTermActivity";
 
@@ -135,83 +166,18 @@ public class AddEditTermActivity extends AppCompatActivity {
         courseEnd = findViewById(R.id.edit_add_course_end);
         courseID = findViewById(R.id.text_view_add_courseID);
 
+//        // Create PDF
+//        ActivityCompat.requestPermissions(this, new String[]{
+//                Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
+//        try {
+//            createPDF();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
 
-
-
-
-//        TextInputEditText search = findViewById(R.id.search_input);
-//        search.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                courseAdapter.getFilter().filter(s.toString());
-////                courseAdapter.getFilter().filter(s.toString());
-////                filter(s.toString());
-//            }
-//        });
-
-
-
-
-        fragmentContainer = (FrameLayout) findViewById(R.id.add_course_frame);
-
-
-
-        if (getIntent().hasExtra(SELECTED_COURSE)){
-            ScheduledCourse scCourse = getIntent().getParcelableExtra("SELECTED_COURSE");
-            Log.d(TAG, "onCreate: " + scCourse. toString());
-        }
 
         // Floating Button
         FloatingActionButton buttonAddTerm = findViewById(R.id.button_open_course);
-
-
-
-//        // Go to AddEditCourse
-//        buttonAddTerm.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v){
-////                courseDialog.termID = editTermID.getText().toString();
-////                scheduledCourseAdapter.termID = editTermID.getText().toString();
-////                ScheduledCourseAdapter.courseTermID = Integer.parseInt(editTermID.getText().toString());
-////                createNewCourseDialog();
-//                String termID = editTermID.getText().toString();
-//                ScheduledCourseAdapter.courseTermID = Integer.parseInt(termID);
-//                AddCourseListActivity.courseTermID = Integer.parseInt(termID);
-//                AddEditCourseActivity.courseTermID = Integer.parseInt(termID);
-////                int tID = Integer.parseInt(termID);
-//                Intent intent = new Intent(AddEditTermActivity.this, AddCourseListActivity.class);
-//                intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, termID);
-//                activityResultLauncher.launch(intent);
-////                System.out.println("Term Button Clicked");
-//
-////                startActivity(intent);
-////                openFragment();
-//
-//
-////                CourseDialog.courseTermID = Integer.parseInt(termID);
-////                courseTermID = Integer.parseInt(termID);
-////                CourseDialog courseDialog = new CourseDialog();
-////                courseDialog.show(getSupportFragmentManager(), "Add Course Dialog");
-//
-//
-//
-//
-//
-////                openDialog();
-//
-//            }
-//        });
-
 
 
         // Recycler View
@@ -264,7 +230,7 @@ public class AddEditTermActivity extends AppCompatActivity {
                 intent.putExtra(AddEditCourseActivity.EXTRA_TITLE, course.getCourseTitle());
                 intent.putExtra(AddEditCourseActivity.EXTRA_START, course.getStartDate());
                 intent.putExtra(AddEditCourseActivity.EXTRA_END, course.getEndDate());
-//                courseTermID = AddEditCourseActivity.courseTermID;
+                intent.putExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR, course.getInstructor());
                 activityUpdateResultLauncher.launch(intent);
 
 
@@ -279,7 +245,6 @@ public class AddEditTermActivity extends AppCompatActivity {
         RecyclerView rv = findViewById(R.id.all_course_RecyclerView);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setHasFixedSize(true);
-//        courses = new ArrayList<>();
 
         // Adapter
         CourseAdapter ca = new CourseAdapter(this, courses);
@@ -309,8 +274,7 @@ public class AddEditTermActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-//                    scheduledCourseViewModel.delete(adapter.getCourseAt(viewHolder.getAdapterPosition()));
-//                    Toast.makeText(AddCourseListActivity.this, "Course Deleted", Toast.LENGTH_SHORT).show();
+
             }
         }).attachToRecyclerView(courseList);
 
@@ -327,6 +291,7 @@ public class AddEditTermActivity extends AppCompatActivity {
                 intent.putExtra(AddEditCourseActivity.EXTRA_TITLE, course.getCourseTitle());
                 intent.putExtra(AddEditCourseActivity.EXTRA_START, course.getStartDate());
                 intent.putExtra(AddEditCourseActivity.EXTRA_END, course.getEndDate());
+                intent.putExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR, course.getInstructor());
                 activityUpdateResultLauncher.launch(intent);
 
 
@@ -481,8 +446,9 @@ public class AddEditTermActivity extends AppCompatActivity {
                         String courseIDString = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_COURSE_ID);
                         int courseID = Integer.parseInt(courseIDString);
                         int ID = Integer.parseInt(termID);
+                        String instructor = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR);
 
-                        Course course = new Course(title, start, end, courseTermID, courseID);
+                        Course course = new Course(title, start, end, courseTermID, courseID, instructor);
 
                         courseViewModel.insert(course);
 
@@ -514,6 +480,14 @@ public class AddEditTermActivity extends AppCompatActivity {
             case R.id.save_term:
                 saveTerm();
                 return true;
+            case R.id.report_term:
+                ActivityCompat.requestPermissions(this, new String[]{
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
+                try {
+                    createPDF();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
             default:
                 return super.onOptionsItemSelected(item);
 
@@ -534,9 +508,10 @@ public class AddEditTermActivity extends AppCompatActivity {
                         int termID = Integer.parseInt(ID);
                         String cID = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_COURSE_ID_DISPLAY);
                         int courseID = Integer.parseInt(cID);
+                        String instructor = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR);
                         System.out.println("Set Course ID: " + courseID);
 
-                        Course course = new Course(title, start, end, termID, courseID);
+                        Course course = new Course(title, start, end, termID, courseID, instructor);
                         course.setCourseID(courseID);
                         courseViewModel.update(course);
 
@@ -549,6 +524,144 @@ public class AddEditTermActivity extends AppCompatActivity {
                 }
             }
     );
+
+    private void createPDF() throws FileNotFoundException {
+        String termStart = startDate.getText().toString();
+        String termEnd = endDate.getText().toString();
+        int tID = Integer.parseInt(editTermID.getText().toString());
+        String tTitle = termTitle.getText().toString();
+        String user = "Test User";
+
+        CourseAdapter cAdapter = new CourseAdapter(this, courses);
+
+        String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
+
+        dateObj = new Date();
+        PdfDocument studentSchedule = new PdfDocument();
+        Paint paint = new Paint();
+        Paint titlePaint = new Paint();
+
+        PdfDocument.PageInfo schedulePageInfo = new PdfDocument.PageInfo.Builder(1200, 2010, 1).create();
+        PdfDocument.Page schedulePage = studentSchedule.startPage(schedulePageInfo);
+
+        Canvas canvas = schedulePage.getCanvas();
+//        canvas.drawText("Student Schedule", 40, 50, paint);
+
+        titlePaint.setTextAlign(Paint.Align.CENTER);
+        titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        titlePaint.setTextSize(70);
+        canvas.drawText("Eastern Senators College", pageWidth/2, 270, titlePaint);
+
+        paint.setColor(Color.rgb(0, 113, 188));
+        paint.setTextSize(30f);
+        paint.setTextAlign(Paint.Align.CENTER);
+
+        titlePaint.setTextAlign(Paint.Align.CENTER);
+        titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.ITALIC));
+        titlePaint.setTextSize(70);
+        canvas.drawText("Student Schedule", pageWidth/2, 500, titlePaint);
+
+        paint.setTextAlign(Paint.Align.LEFT);
+        paint.setTextSize(35f);
+        paint.setColor(Color.BLACK);
+        canvas.drawText("Student Name: " + user, 20, 590, paint);
+        canvas.drawText("Term: " + tTitle, 20, 590, paint);
+
+        paint.setTextAlign(Paint.Align.RIGHT);
+        canvas.drawText("Term ID: " + tID, pageWidth-20, 590, paint);
+
+//        pdfDateFormat = new SimpleDateFormat("MM/dd/yy");
+        canvas.drawText("Start: " + termStart, pageWidth-20, 640, paint);
+        canvas.drawText("End: " + termEnd, pageWidth-20, 640, paint);
+
+//        courseViewModel.getAssignedCourses(getIntent().getIntExtra(EXTRA_ID, -1)).observe(this, new Observer<List<Course>>() {
+//            @Override
+//            public void onChanged(List<Course> courseList) {
+//                cAdapter.setCourse(courseList);
+//                for (Course courses : courseList){
+//                    String courseTitle = courses.getCourseTitle();
+//                    String coursesInstructor = courses.getInstructor();
+//                    String coursesStartDate = courses.getStartDate();
+//                    String coursesEndDate = courses.getEndDate();
+//                    int courseID = courses.getCourseID();
+//                    cID = courseID;
+//                    canvas.drawText("Course Title: " + courseTitle+ ": " + courseID, 40, 950, paint);
+//                    canvas.drawText("Instructor: " + coursesInstructor, 40, 950, paint);
+//                    canvas.drawText("Start: " + coursesStartDate, 40, 950, paint);
+//                    canvas.drawText("End: " + coursesEndDate, 40, 950, paint);
+//                    break;
+//                }
+//            }
+//        });
+
+
+//        assessmentViewModel.getAllAssignedAssessments(cID).observe(this, new Observer<List<Assessment>>() {
+//            @Override
+//            public void onChanged(List<Assessment> assessmentList) {
+//                assessmentAdapter.setAssessments(assessmentList);
+//                for (Assessment assessments : assessmentList){
+//                    String assessmentTitle = assessments.getAssessmentTitle();
+//                    String assessmentType = assessments.getAssessmentType();
+//                    String assessmentStartDate = assessments.getStartDate();
+//                    String assessmentEndDate = assessments.getEndDate();
+//                    int assessmentID = assessments.getAssessmentID();
+//                    aID = assessmentID;
+//                    aTitleSchedule = assessmentTitle;
+//                    aTypeSchedule = assessmentType;
+//                    aStartSchedule = assessmentStartDate;
+//                    aEndSchedule = assessmentEndDate;
+//                    canvas.drawText("Assessment Title: " + assessmentTitle + ": " + assessmentID, 60, 1150, paint);
+//                    canvas.drawText("Assessment Type: " + assessmentType, 60, 1150, paint);
+//                    canvas.drawText("Start: " + assessmentStartDate, 60, 1150, paint);
+//                    canvas.drawText("End: " + assessmentEndDate, 60, 1150, paint);
+//
+//                }
+//            }
+//        });
+
+//        canvas.drawText("Course Title: ", 40, 950, paint);
+//        canvas.drawText("Instructor: ", 40, 950, paint);
+//        canvas.drawText("Start: ", 40, 950, paint);
+//        canvas.drawText("End: ", 40, 950, paint);
+//
+//        canvas.drawText("Assessment Title: ", 60, 1150, paint);
+//        canvas.drawText("Assessment Type: ", 60, 1150, paint);
+//        canvas.drawText("Start: " , 60, 1150, paint);
+//        canvas.drawText("End: " , 60, 1150, paint);
+
+
+//        canvas.drawText("Course Title: " + cTitleSchedule, 40, 950, paint);
+//        canvas.drawText("Instructor: " + cInstructorSchedule, 40, 950, paint);
+//        canvas.drawText("Start: " + cStartSchedule, 40, 950, paint);
+//        canvas.drawText("End: " + cEndSchedule, 40, 950, paint);
+//
+//        canvas.drawText("Assessment Title: " + aTitleSchedule, 60, 1150, paint);
+//        canvas.drawText("Assessment Type: " + aTypeSchedule, 60, 1150, paint);
+//        canvas.drawText("Start: " + aStartSchedule, 60, 1150, paint);
+//        canvas.drawText("End: " + aEndSchedule, 60, 1150, paint);
+
+
+
+
+
+
+
+
+        studentSchedule.finishPage(schedulePage);
+
+        File file = new File(pdfPath, "/StudentSchedule.pdf");
+//        File file = new File(Environment.getExternalStorageDirectory(), "StudentSchedule.pdf");
+
+        try {
+            studentSchedule.writeTo(new FileOutputStream(file));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Toast.makeText(this, "PDF Created", Toast.LENGTH_SHORT).show();
+        studentSchedule.close();
+    }
+
+
 
     public void setCourseList(List<Course> courses) {
         this.courses = courses;

@@ -44,7 +44,7 @@ import com.example.coursescheduler.Entity.Assessment;
 import com.example.coursescheduler.Entity.Course;
 import com.example.coursescheduler.Entity.Instructor;
 import com.example.coursescheduler.Entity.Note;
-import com.example.coursescheduler.Entity.ScheduledCourse;
+//import com.example.coursescheduler.Entity.ScheduledCourse;
 import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -103,7 +103,7 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
     static int courseTermID;
     ArrayList<String> instructorList;
     Dialog dialog;
-    ScheduledCourseAdapter.OnItemClickListener listener;
+//    ScheduledCourseAdapter.OnItemClickListener listener;
     AddEditTermActivity addEditTermActivity;
 
 
@@ -333,6 +333,9 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
             courseTitle.setText(intent.getStringExtra(EXTRA_TITLE));
             startDate.setText(intent.getStringExtra(EXTRA_START));
             endDate.setText(intent.getStringExtra(EXTRA_END));
+            instructorName.setText(intent.getStringExtra(EXTRA_INSTRUCTOR));
+
+            System.out.println("Instructor Name: " + EXTRA_TITLE);
         }
 //        else {
 //            setTitle("Add Course");
@@ -356,6 +359,7 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
         String termID = editTermID.getText().toString();
         String courseID = editCourseID.getText().toString();
         int tID = Integer.parseInt(termID);
+        String instructor = instructorName.getText().toString();
 
 
 
@@ -369,6 +373,7 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
         data.putExtra(AddEditTermActivity.EXTRA_TITLE, title);
         data.putExtra(AddEditTermActivity.EXTRA_START, start);
         data.putExtra(AddEditTermActivity.EXTRA_END, end);
+        data.putExtra(AddEditTermActivity.EXTRA_INSTRUCTOR, instructor);
 
 
         System.out.println("Course Title Test: " + title);
@@ -472,10 +477,11 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
                         String end = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_END);
                         String termID = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_TERM_ID);
                         String courseIDString = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_COURSE_ID);
+                        String instructor = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR);
                         int courseID = Integer.parseInt(courseIDString);
                         int ID = Integer.parseInt(termID);
 
-                        Course course = new Course(title, start, end, courseTermID, courseID);
+                        Course course = new Course(title, start, end, courseTermID, courseID, instructor);
 
                         courseViewModel.insert(course);
 
@@ -495,14 +501,13 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
-//        String text = parent.getItemAtPosition(position).toString();
-//        int pos = parent.getSelectedItemPosition();
-//        String positionString = String.valueOf(pos);
 
-//        statusPosition = pos;
-//
-//        getIntent().putExtra(AddEditCourseActivity.EXTRA_STATUS_POS, positionString);
-//        getIntent().putExtra(AddEditCourseActivity.EXTRA_STATUS, text);
+        String text = parent.getItemAtPosition(position).toString();
+        int pos = parent.getSelectedItemPosition();
+        String positionString = String.valueOf(pos);
+
+        getIntent().putExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR, text);
+        getIntent().putExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR_POS, positionString);
 
     }
 
